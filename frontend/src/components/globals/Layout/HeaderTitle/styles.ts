@@ -18,7 +18,7 @@ export const TitleDetail = styled.div`
 `;
 
 export const TitleText = styled.span`
-  color: ${theme.colors.p1};
+  color: ${theme.colors.white};
   font-size: ${theme.typography.fontSizes.title};
   font-weight: ${theme.typography.fontWeights.bold};
   text-align: center;

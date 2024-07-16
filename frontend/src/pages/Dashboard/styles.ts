@@ -11,10 +11,3 @@ export const Container = styled.div`
   grid-template-columns: 1fr;
   gap: ${theme.spacing.gaps.default};
 `;
-
-export const ChartContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 0.64fr;
-  grid-template-rows: 28rem;
-  gap: 3rem;
-`;

@@ -8,7 +8,7 @@ type AuthProviderData = {
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   user: UserProps;
-  loginIn: ({ cpf, password }: LoginInProps) => Promise<void>;
+  loginIn: ({ account, password }: LoginInProps) => Promise<void>;
   logout: () => void;
   resetPassword: ({
     password,
@@ -17,14 +17,14 @@ type AuthProviderData = {
 };
 
 type UserProps = {
-  nome: string;
-  cpf: string;
-  email: string;
-  primeiroAcesso: boolean;
+  name: string;
+  account: string;
+  type: string;
+  level: string;
 };
 
 type LoginInProps = {
-  cpf: string;
+  account: string;
   password: string;
 };
 
@@ -41,20 +41,23 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [user, setUser] = useState<UserProps>({} as UserProps);
 
-  const loginIn = async ({ cpf, password }: LoginInProps): Promise<void> => {
+  const loginIn = async ({
+    account,
+    password,
+  }: LoginInProps): Promise<void> => {
     return new Promise((resolve, reject) => {
       try {
         // [POST]
         const response = {
-          nome: "Daniel",
-          cpf: "12345678910",
-          email: "danieltoledo.dev@gmail.com",
-          primeiroAcesso: true,
+          name: "Daniel",
+          account: "12345678910",
+          type: "corrente",
+          level: "ouro",
         };
         setUser(response);
 
-        console.log("CPF: ", cpf);
-        console.log("Senha: ", password);
+        console.log("Nome: ", response.name);
+        console.log("Conta: ", account);
 
         resolve();
       } catch (error) {
@@ -72,10 +75,10 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       try {
         // [POST]
         const response = {
-          nome: "User 1",
-          cpf: "12345678910",
-          email: "teste@gmail.com",
-          primeiroAcesso: false,
+          name: "Daniel",
+          account: "12345678910",
+          type: "corrente",
+          level: "ouro",
         };
         setUser(response);
         console.log("Senha: ", password);

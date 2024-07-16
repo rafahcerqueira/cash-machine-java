@@ -1,59 +1,20 @@
-import { CardWrapper, CardContainer, IconWrapper, Percent } from "./styles";
+import { CardWrapper, CardContainer } from "./styles";
+import { useAuth } from "@/hooks";
 import { theme } from "@/theme";
 
-type CardsType = {
-  dataCards: {
-    title: string;
-    icon: string;
-    value: number;
-    percent: number;
-  }[];
-  CardActive: number;
-  setCardActive: React.Dispatch<React.SetStateAction<number>>;
-};
+export default function Cards() {
+  const { user } = useAuth();
 
-export default function Cards({
-  dataCards,
-  CardActive,
-  setCardActive,
-}: CardsType) {
   return (
     <CardWrapper>
-      {dataCards.map((card, index) => (
-        <CardContainer
-          key={index}
-          onClick={() => setCardActive(index)}
-          style={
-            index === CardActive
-              ? {
-                  background: theme.colors.g2,
-                  color: theme.colors.white,
-                }
-              : {
-                  background: theme.colors.white,
-                  color: theme.colors.p1,
-                }
-          }
-        >
-          <IconWrapper>
-            <span className="material-symbols-outlined">{card.icon}</span>
-          </IconWrapper>
-          <p>{card.value}</p>
-          <h2>{card.title}</h2>
-          <Percent
-            style={
-              index === CardActive
-                ? { color: theme.colors.white }
-                : { color: theme.colors.p1_50 }
-            }
-          >
-            <span className="material-symbols-outlined">
-              {card.percent > 0 ? "north" : "south"}
-            </span>
-            {(card.percent < 0 ? card.percent * -1 : card.percent).toFixed(2)}%
-          </Percent>
-        </CardContainer>
-      ))}
+      <CardContainer>
+        <h2>Daniel Toledo</h2>
+        <p>00495311-6</p>
+      </CardContainer>
+      <CardContainer>
+        <h2>Saldo</h2>
+        <p style={{ color: theme.colors.p2 }}>R$ 1.000,00</p>
+      </CardContainer>
     </CardWrapper>
   );
 }
