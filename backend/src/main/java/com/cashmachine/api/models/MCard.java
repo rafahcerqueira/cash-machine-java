@@ -1,58 +1,36 @@
 package com.cashmachine.api.models;
 
-/**
- * Card Model
- */
+// Card Model
 public class MCard {
     
-    /**
-     * Card ID 
-     */
+    // Card ID 
     private int CAR_ID = 0;
 
-    /**
-     * Card Account ID
-     */
+    // Card Account ID
     private int CAR_ACC_ID = 0;
 
-    /**
-     * Card Code
-     */
+    // Card Code
     private String CAR_CODE = "";
 
-    /**
-     * Card Expiration Date
-     */
+    // Card Expiration Date
     private String CAR_EXPIRATION_DATE = "";
 
-    /**
-     * Card Type
-     */
+    // Card Type
     private String CAR_TYPE = "";
 
-    /**
-     * Card CVV
-     */
+    // Card CVV
     private String CAR_CVV = "";
 
-    /**
-     * Card Status
-     */
+    // Card Status
     private boolean CAR_STATUS = false;
 
-    /**
-     * Card Password
-     */
+    // Card Password
     private String CAR_PASSWORD = "";
 
-    /**
-     * Card Limit
-     */
+    // Card Limit
     private float CAR_LIMIT = 0;
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private MCard() { };
 
     /**
@@ -224,5 +202,4 @@ public class MCard {
         this.CAR_LIMIT = CAR_LIMIT;
         return this;
     }
-
 }

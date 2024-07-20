@@ -4,29 +4,19 @@ import java.time.LocalDateTime;
 
 public class MSession {
     
-    /**
-     * Session Cash Machine ID
-     */
+    // Session Cash Machine ID
     private int SSI_CSM_ID = 0;
 
-    /**
-     * Session Account Code
-     */
+    // Session Account Code
     private String SSI_ACC_CODE = "";
     
-    /**
-     * Session Token
-     */
+    // Session Token
     private String SSI_TOKEN = "";
 
-    /**
-     * Session Date
-     */
+    // Session Date
     private LocalDateTime SSI_DATE = null;
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private MSession() { }
 
     /**

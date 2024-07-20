@@ -1,28 +1,18 @@
 package com.cashmachine.api.models;
 
-/**
- * Customer Telephone Model
- */
+// Customer Telephone Model
 public class MClientTelephone {
     
-    /**
-     * Client Telephone ID
-     */
+    // Client Telephone ID
     private int CLT_ID = 0;
 
-    /**
-     * Client ID
-     */
+    // Client ID
     private int CLT_CLI_ID = 0;
 
-    /**
-     * Client Telephone
-     */
+    // Client Telephone
     private String CLT_TELEPHONE = "";
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private MClientTelephone() { }
 
     /**

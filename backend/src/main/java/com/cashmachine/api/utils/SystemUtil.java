@@ -8,14 +8,10 @@ import java.util.Random;
 
 import com.cashmachine.api.enums.EPartDate;
 
-/**
- * Class Contains useful functions for the system.
- */
+// Class Contains useful functions for the system.
 public class SystemUtil {
 
-	/**
-	 * Constructor
-	 */
+	// Constructor
 	private SystemUtil() {
 	}
 

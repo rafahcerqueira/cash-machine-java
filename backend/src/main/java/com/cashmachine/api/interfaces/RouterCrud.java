@@ -8,9 +8,7 @@ import com.cashmachine.api.http.HttpMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
-/**
- * Abstract Crud routers
- */
+// Abstract Crud routers
 public interface RouterCrud<X> {
     
     /**
@@ -48,5 +46,4 @@ public interface RouterCrud<X> {
      * @return List of data
      */
     public abstract ResponseEntity<DBResult<X>> getFilteredData(@RequestBody int limit, @RequestBody String search);
-
 }

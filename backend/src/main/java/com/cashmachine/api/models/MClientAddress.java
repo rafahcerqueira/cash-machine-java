@@ -1,53 +1,33 @@
 package com.cashmachine.api.models;
 
-/**
- * Customer Address Model
- */
+// Customer Address Model
 public class MClientAddress {
     
-    /**
-     * Client Address ID
-     */
+    // Client Address ID
     private int CLA_ID = 0;
 
-    /**
-     * Client ID
-     */
+    // Client ID
     private int CLA_CLI_ID = 0;
 
-    /**
-     * Client Address Zip Code
-     */
+    // Client Address Zip Code
     private String CLA_ZIP_CODE = "";
 
-    /**
-     * Client Address Number
-     */
+    // Client Address Number
     private String CLA_ADDRESS = "";
 
-    /**
-     * Client Number
-     */
+    // Client Number
     private int CLA_NUMBER = 0;
 
-    /**
-     * Client Address Districty
-     */
+    // Client Address Districty
     private String CLA_DISTRICTY = "";
 
-    /**
-     * Client Address City
-     */
+    // Client Address City
     private String CLA_CITY = "";
 
-    /**
-     * Client Address UF
-     */
+    // Client Address UF
     private String CLA_UF = "";
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private MClientAddress() { }
 
     /**
@@ -201,5 +181,4 @@ public class MClientAddress {
         this.CLA_CLI_ID = CLA_CLI_ID;
         return this;
     }
-
 }

@@ -2,44 +2,28 @@ package com.cashmachine.api.models;
 
 import java.sql.Date;
 
-/**
- * Customer Historic Model
- */
+// Customer Historic Model
 public class MHistoric {
 
-    /**
-     * Historic ID
-     */
+    // Historic ID
     private int HIS_ID = 0;
 
-    /**
-     * Historic Cash Machine ID
-     */
+    // Historic Cash Machine ID
     private int HIS_CSM_ID = 0;
 
-    /**
-     * Historic Account ID
-     */
+    // Historic Account ID
     private int HIS_ACC_ID = 0;
 
-    /**
-     * Historic Operation
-     */
+    // Historic Operation
     private String HIS_OPERATION;
 
-    /**
-     * Historic Datetime
-     */
+    // Historic Datetime
     private Date HIS_DATETIME;
 
-    /**
-     * Historic Value
-     */
+    // Historic Value
     private float HIS_VALUE = 0;
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private MHistoric() {
     }
 

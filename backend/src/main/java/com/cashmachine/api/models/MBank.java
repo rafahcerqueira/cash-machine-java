@@ -1,28 +1,18 @@
 package com.cashmachine.api.models;
 
-/**
- * Customer Model
- */
+// Customer Model
 public class MBank {
 
-    /**
-     * Bank ID
-     */
+    // Bank ID
     private int BNK_ID = 0;
 
-    /**
-     * Bank Name
-     */
+    // Bank Name
     private String BNK_NAME = "";
 
-    /**
-     * Bank Code
-     */
+    // Bank Code
     private String BNK_CODE = "";
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private MBank () {}
 
     /**

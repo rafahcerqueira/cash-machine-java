@@ -1,53 +1,33 @@
 package com.cashmachine.api.models;
 
-/**
- * Account Model
- */
+// Account Model
 public class MAccount {
 
-    /**
-     * Account ID
-     */
+    // Account ID
     private int ACC_ID = 0;
 
-    /**
-     * Accout Client ID
-     */
+    // Accout Client ID
     private int ACC_CLI_ID = 0;
 
-    /**
-     * Account Agency ID
-     */
+    // Account Agency ID
     private int ACC_AGE_ID = 0;
 
-    /**
-     * Account Code
-     */
+    // Account Code
     private String ACC_CODE = "";
 
-    /**
-     * Account Password
-     */
+    // Account Password
     private String ACC_PASSWORD = "";
 
-    /**
-     * Account Status
-     */
+    // Account Status
     private boolean ACC_STATUS = false;
 
-    /**
-     * Account Balance
-     */
+    // Account Balance
     private float ACC_BALANCE = 0;
 
-    /**
-     * Account Type
-     */
+    // Account Type
     private String ACC_TYPE;
 
-    /**
-     * Private Constructor
-     */
+    // Private Constructor
     private MAccount() {
     }
 

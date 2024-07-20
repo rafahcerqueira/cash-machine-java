@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const ConductorSchema = z.object({
   nome_completo: z.string().min(1, "O campo Nome Completo é obrigatório"),
-  cpf: z.string().min(1, "O campo CPF é obrigatório"),
+  conta: z.string().min(1, "O campo conta é obrigatório"),
   nascimento: z.string().min(1, "O campo Nascimento é obrigatório"),
   cargo: z.string().min(1, "O campo Cargo é obrigatório"),
   cep: z.string().min(1, "O campo CEP é obrigatório"),
@@ -24,7 +24,7 @@ export const steps = [
     id: "Dados Pessoais",
     fields: [
       "nome_completo",
-      "cpf",
+      "conta",
       "nascimento",
       "cargo",
       "cep",

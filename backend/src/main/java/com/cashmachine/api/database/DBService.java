@@ -5,25 +5,16 @@ import java.sql.*;
 import com.cashmachine.api.configs.DBConfig;
 import com.cashmachine.api.utils.SystemUtil;
 
-/**
- * Class Database Service
- * 
- */
+// Class Database Service
 public class DBService {
 
-    /**
-     * Keeps the Class Instance
-     */
+    // Keeps the Class Instance
     private static DBService instance;
 
-    /**
-     * Keeps the Connection Database
-     */
+    // Keeps the Connection Database
     private Connection connection;
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private DBService() {
 
         try {
@@ -54,7 +45,6 @@ public class DBService {
             SystemUtil.log("Falha ao Efetuar Conexão com Banco de Dados - " + e.getMessage());
 
         }
-
     }
 
     /**
@@ -84,5 +74,4 @@ public class DBService {
     public Connection getConnection() {
         return connection;
     }
-
 }

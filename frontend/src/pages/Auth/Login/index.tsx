@@ -41,11 +41,11 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      await loginIn({ cpf: data.cpf, password: data.senha });
+      await loginIn({ account: data.conta, password: data.senha });
       reset();
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        console.error("Credenciais inválidas. Verifique seu CPF e senha.");
+        console.error("Credenciais inválidas. Verifique sua conta e senha.");
       } else if (error.response && error.response.status === 404) {
         console.error("Usuário não encontrado.");
       } else {
@@ -55,10 +55,8 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (user.primeiroAcesso) {
+    if (user.account) {
       navigate("/primeiro-acesso");
-    } else if (user.primeiroAcesso === false) {
-      setIsAuthenticated(true);
     }
   }, [user]);
 
@@ -68,7 +66,7 @@ export default function Login() {
       /(\d{3})(\d{3})(\d{3})(\d{2})/,
       "$1.$2.$3-$4"
     );
-    setValue("cpf", maskedCPF);
+    setValue("conta", maskedCPF);
   };
 
   return (
@@ -86,11 +84,11 @@ export default function Login() {
           </WrapperTitle>
           <WrapperForm onSubmit={handleSubmit(onSubmit)}>
             <InputLogin
-              label="CPF"
-              placeholder="Digite seu CPF"
-              messageError={errors.cpf?.message}
+              label="Conta"
+              placeholder="Digite sua conta"
+              messageError={errors.conta?.message}
               register={register}
-              registerName="cpf"
+              registerName="conta"
               type="text"
               maxLength={14}
               onMaskChange={onChangeCpf}

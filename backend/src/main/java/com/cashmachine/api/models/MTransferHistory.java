@@ -1,38 +1,24 @@
 package com.cashmachine.api.models;
 
-/**
- * Card Model
- */
+// Card Model
 public class MTransferHistory {
 
-    /**
-     * Transfer History ID
-     */
+    // Transfer History ID
     private int TRH_ID = 0;
 
-    /**
-     * Tranfer Origin Account ID
-     */
+    // Tranfer Origin Account ID
     private int TRH_ORIGIN_ACC_ID = 0;
 
-    /**
-     * Transfer Destiny Account ID
-     */
+    // Transfer Destiny Account ID
     private int TRH_DESTINY_ACC_ID = 0;
 
-    /**
-     * Transfer History Value
-     */
+    // Transfer History Value
     private float TRH_VALUE = 0;
 
-    /**
-     * Transfer History Date Time
-     */
+    // Transfer History Date Time
     private String TRH_DATETIME;
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private MTransferHistory() { };
 
     /**

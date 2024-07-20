@@ -38,7 +38,7 @@ export const Step = styled.div`
 
 export const StepNumber = styled(Step)`
   color: ${theme.colors.b2};
-  background: ${theme.colors.bg1};
+  background: ${theme.colors.backgroundPrimary};
   border: 1px solid ${theme.colors.b2};
 `;
 

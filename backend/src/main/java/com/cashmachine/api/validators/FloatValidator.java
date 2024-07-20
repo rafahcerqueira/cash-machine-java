@@ -1,13 +1,9 @@
 package com.cashmachine.api.validators;
 
-/**
- * Float Validator
- */
+// Float Validator
 public class FloatValidator {
     
-    /**
-     * Constructor
-     */
+    // Constructor
     private FloatValidator() { }
 
     /**

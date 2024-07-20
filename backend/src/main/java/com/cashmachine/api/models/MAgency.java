@@ -1,34 +1,21 @@
 package com.cashmachine.api.models;
 
-/**
- * Customer Model
- * @autor LucasZaia
- */
+// Customer Model
 public class MAgency {
 
-    /**
-     * Agency ID
-     */
+    // Agency ID
     private int AGE_ID = 0;
 
-    /**
-     * Agency Bank ID
-     */
+    // Agency Bank ID
     private int AGE_BNK_ID = 0;
 
-    /**
-     * Agency Name
-     */
+    // Agency Name
     private String AGE_NAME = "";
 
-    /**
-     * Agency Agency Code
-     */
+    // Agency Agency Code
     private String AGE_CODE = "";
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private MAgency () {}
 
     /**

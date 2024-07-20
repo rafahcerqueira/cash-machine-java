@@ -4,7 +4,7 @@ import { theme } from "@/theme";
 export const WrapperLogin = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: ${theme.colors.bg1};
+  background-color: ${theme.colors.backgroundPrimary};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,7 +18,7 @@ export const ContainerLogin = styled.div`
   z-index: 1;
   background-color: transparent;
   box-shadow: ${theme.boxShadow.cardLogin};
-  border: 2vw solid ${theme.colors.bg1};
+  border: 2vw solid ${theme.colors.backgroundPrimary};
 `;
 
 // Form
@@ -102,5 +102,5 @@ export const FixedStripe = styled.div`
   inset: 0 80% 0 22%;
   height: 100vh;
   width: 22.4%;
-  background-color: ${theme.colors.black};
+  background-color: ${theme.colors.backgroundSecondary};
 `;

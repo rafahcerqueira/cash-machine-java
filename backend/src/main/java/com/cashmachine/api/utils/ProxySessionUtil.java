@@ -10,30 +10,20 @@ import com.cashmachine.api.models.MAccount;
 import com.cashmachine.api.models.MCashMachine;
 import com.cashmachine.api.models.MSession;
 
-/**
- * Proxy Service Session Util
- */
+//  Proxy Service Session Util
 public class ProxySessionUtil implements ProxyService {
     
 
-    /**
-     * Cash Machine Crud Instance
-     */
+    // Cash Machine Crud Instance
     private CashMachineCrud cashMachinecrud = CashMachineCrud.getInstance();
 
-    /**
-     * Account Crud
-     */
+    // Account Crud
     private AccountCrud accountCrud = AccountCrud.getInstance();
 
-    /**
-     * Instance of Class
-     */
+    // Instance of Class
     private static ProxySessionUtil instance = null;
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private ProxySessionUtil() { }
 
     /**
@@ -53,7 +43,6 @@ public class ProxySessionUtil implements ProxyService {
     public void destroyInstance() {
         instance = null;
     }
-
 
     @Override
     public boolean newSession(MSession session) {
@@ -199,8 +188,4 @@ public class ProxySessionUtil implements ProxyService {
         } 
         return null;
     }
-
-    
-    
-
 }

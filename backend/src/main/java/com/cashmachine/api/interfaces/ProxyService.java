@@ -4,9 +4,7 @@ import com.cashmachine.api.models.MAccount;
 import com.cashmachine.api.models.MCashMachine;
 import com.cashmachine.api.models.MSession;
 
-/**
- * Abstract Proxy Services
- */
+// Abstract Proxy Services
 public interface ProxyService {
     
     /**
@@ -43,5 +41,4 @@ public interface ProxyService {
      * @return MCashMAchine object
      */
     public MCashMachine getCashMachineByToken(String token);
-
 }

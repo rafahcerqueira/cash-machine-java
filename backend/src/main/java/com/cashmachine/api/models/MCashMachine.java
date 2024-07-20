@@ -1,32 +1,20 @@
 package com.cashmachine.api.models;
 
-/**
- * Customer Cash Machine Model
- */
+// Customer Cash Machine Model
 public class MCashMachine {
-    /**
-     * Cash Machine ID
-     */
+    // Cash Machine ID
     private int CSM_ID = 0;
 
-    /**
-     * Cash Machine Name
-     */
+    // Cash Machine Name
     private String CSM_NAME = "";
 
-    /**
-     * Cash Machine Available Value
-     */
+    // Cash Machine Available Value
     private float CSM_AVAILABLE_VALUE = 0;
 
-    /**
-     * Cash Machine Status
-     */
+    // Cash Machine Status
     private String CSM_STATUS = "";
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private MCashMachine() {
     }
 

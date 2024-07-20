@@ -1,38 +1,24 @@
 package com.cashmachine.api.models;
 
-/**
- * Customer Model
- */
+// Customer Model
 public class MClient {
     
-    /**
-     * Client ID
-     */
+    // Client ID
     private int CLI_ID = 0;
 
-    /**
-     * Client Full Name
-     */
+    // Client Full Name
     private String CLI_FULL_NAME = "";
 
-    /**
-     * Client Rg
-     */
+    // Client Rg
     private String CLI_RG = "";
 
-    /**
-     * Client Cpf
-     */
+    // Client Cpf
     private String CLI_CPF = "";
 
-    /**
-     * Client BIRTHDAY
-     */
+    // Client BIRTHDAY
     private String CLI_BIRTHDAY = "";
 
-    /**
-     * Constructor
-     */
+    // Constructor
     private MClient() { }
 
     /**

@@ -11,29 +11,19 @@ import com.cashmachine.api.models.MCashMachine;
 import com.cashmachine.api.models.MSession;
 import com.cashmachine.api.utils.SystemUtil;
 
-/**
- * Cache Session
- */
+// Cache Session
 public class CSession implements ProxyService{
 
-    /**
-     * Session List
-     */
+    // Session List
     private List<MSession> memorySession = new ArrayList<MSession>();
 
-    /**
-     * Instance of Class
-     */
+    // Instance of Class
     private static CSession instance = null;
     
-    /**
-     * Constructor
-     */
+    // Constructor
     private CSession() { }
 
-    /**
-     * Get instance method
-     */
+    // Get instance method
     public static CSession getInstance() {
         if (instance == null) {
             instance = new CSession();
@@ -41,9 +31,7 @@ public class CSession implements ProxyService{
         return instance;
     }
 
-    /**
-     * Dentroy instance method
-     */
+    // Dentroy instance method
     public void destroyInstance() {
         instance = null;
     }
@@ -77,7 +65,6 @@ public class CSession implements ProxyService{
         return true;
     }
     
-
     @Override
     public boolean authSession (String token) {
 
@@ -196,5 +183,4 @@ public class CSession implements ProxyService{
         memorySession.add(session);
         return true;
     }
-
 }

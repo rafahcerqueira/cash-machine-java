@@ -2,9 +2,7 @@ package com.cashmachine.api.database;
 
 import java.util.List;
 
-/**
- * Class of Result Searchs Database
- */
+// Class of Result Searchs Database
 public class DBResult<X> {
 
     /**
@@ -57,5 +55,4 @@ public class DBResult<X> {
         this.items = items;
         return this;
     }
-
 }

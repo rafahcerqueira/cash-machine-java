@@ -1,13 +1,9 @@
 package com.cashmachine.api.validators;
 
-/**
- * String Validator
- */
+// String Validator
 public class StringValidator {
     
-    /**
-     * Constructor
-     */
+    // Constructor
     private StringValidator() { }
 
 

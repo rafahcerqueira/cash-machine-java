@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.cashmachine.api.database.DBResult;
 
-/**
- * Abstract Crud and Methods
- */
+// Abstract Crud and Methods
 public interface DBCrud<X> {
     
     /**
@@ -50,5 +48,4 @@ public interface DBCrud<X> {
      * @return List of Data
      */
     public abstract List<X> getDataByID(int id);
-
 }
