@@ -17,15 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Client route contains the basic crud.
- */
+// Client route contains the basic crud.
 @RestController
 public class RClient implements RouterCrud<MClient> {
     
-    /**
-     * Crud Client
-     */
+    // Crud Client
     private ClientCrud crud = ClientCrud.getInstance();
 
     @Override

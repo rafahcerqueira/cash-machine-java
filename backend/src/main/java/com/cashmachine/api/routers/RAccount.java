@@ -39,8 +39,6 @@ public class RAccount {
             return ResponseEntity.status(code).body(message);
         }
 
-        
-
         if (!ProxySessionUtil.getInstance().authSession(token)) {
             message.setCode(code).setMessage("Usuário Não Está Autenticado.").setError("");
             return ResponseEntity.status(code).body(message);

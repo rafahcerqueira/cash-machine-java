@@ -8,7 +8,7 @@ export default function Cards() {
   return (
     <CardWrapper>
       <CardContainer>
-        <h2>Daniel Toledo</h2>
+        <h2>{user.name ?? "Daniel Toledo"}</h2>
         <p>00495311-6</p>
       </CardContainer>
       <CardContainer>

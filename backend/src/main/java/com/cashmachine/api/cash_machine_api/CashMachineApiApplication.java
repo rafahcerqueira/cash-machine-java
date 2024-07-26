@@ -25,5 +25,4 @@ public class CashMachineApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CashMachineApiApplication.class, args);
 	}
-
 }
