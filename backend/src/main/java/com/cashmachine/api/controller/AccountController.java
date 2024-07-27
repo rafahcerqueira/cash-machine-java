@@ -17,13 +17,8 @@ import java.util.Optional;
 @RequestMapping("/api/accounts")
 public class AccountController {
 
-    private final UserService userService;
-    private final AccountService accountService;
-
-    public AccountController(UserService userService, AccountService accountService) {
-        this.userService = userService;
-        this.accountService = accountService;
-    }
+    private UserService userService;
+    private AccountService accountService;
 
     @PostMapping("/{userId}/deposit")
     public ResponseEntity<String> deposit(@PathVariable int userId, @RequestParam double amount) {
