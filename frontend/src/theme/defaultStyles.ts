@@ -3,7 +3,7 @@ import { theme } from ".";
 export const DatagridStyles = {
   "& .theme-header": {
     margin: "0",
-    backgroundColor: theme.colors.bg3,
+    backgroundColor: theme.colors.bg1,
     color: theme.colors.p1,
     fontSize: theme.typography.fontSizes.header_datagrid,
     fontWeight: theme.typography.fontWeights.medium,
@@ -22,7 +22,7 @@ export const DatagridStyles = {
   },
 
   "& .MuiDataGrid-cell": {
-    color: theme.colors.p1,
+    color: theme.colors.p4,
     fontSize: theme.typography.fontSizes.cell_datagrid,
     fontWeight: theme.typography.fontWeights.medium,
   },

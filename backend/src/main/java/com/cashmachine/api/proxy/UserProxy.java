@@ -1,7 +1,7 @@
 package com.cashmachine.api.proxy;
 
-import com.cashmachine.api.service.UserService;
 import org.springframework.stereotype.Component;
+import com.cashmachine.api.service.UserService;
 
 @Component
 public class UserProxy {
@@ -13,7 +13,6 @@ public class UserProxy {
     }
 
     public boolean validateUser(String username, String password) {
-        // Usar Optional para verificar se o usuário existe e comparar a senha
         return userService.findByName(username)
             .map(user -> user.getPassword().equals(password))
             .orElse(false);

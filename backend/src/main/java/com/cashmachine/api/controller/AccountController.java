@@ -1,12 +1,13 @@
 package com.cashmachine.api.controller;
 
-import com.cashmachine.api.model.User;
-import com.cashmachine.api.model.Transaction;
-import com.cashmachine.api.service.AccountService;
-import com.cashmachine.api.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.cashmachine.api.model.Transaction;
+import com.cashmachine.api.model.User;
+import com.cashmachine.api.service.AccountService;
+import com.cashmachine.api.service.UserService;
 
 import java.math.BigDecimal;
 import java.util.List;

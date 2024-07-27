@@ -1,14 +1,15 @@
 package com.cashmachine.api.database;
 
-import com.cashmachine.api.model.AccountType;
-import com.cashmachine.api.model.AccountLevel;
-import com.cashmachine.api.model.NoteSlot;
-import com.cashmachine.api.repository.AccountTypeRepository;
-import com.cashmachine.api.repository.AccountLevelRepository;
-import com.cashmachine.api.repository.NoteSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import com.cashmachine.api.model.AccountLevel;
+import com.cashmachine.api.model.AccountType;
+import com.cashmachine.api.model.NoteSlot;
+import com.cashmachine.api.repository.AccountLevelRepository;
+import com.cashmachine.api.repository.AccountTypeRepository;
+import com.cashmachine.api.repository.NoteSlotRepository;
 
 @Component
 public class DataInitializer implements CommandLineRunner {

@@ -1,29 +1,16 @@
 package com.cashmachine.api.service;
 
 import com.cashmachine.api.model.User;
-import com.cashmachine.api.repository.UserRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
+    Optional<User> findById(long id);
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    Optional<User> findByName(String name);
 
-    public Optional<User> findById(long id) {
-        return userRepository.findById(id);
-    }
+    void save(User user);
 
-    public Optional<User> findByName(String name) {
-        return userRepository.findByName(name);
-    }
-
-    public void save(User user) {
-        userRepository.save(user);
-    }
+    boolean validateUser(String username, String password);
 }

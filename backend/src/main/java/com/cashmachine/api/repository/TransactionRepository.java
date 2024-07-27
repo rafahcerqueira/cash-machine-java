@@ -1,8 +1,9 @@
 package com.cashmachine.api.repository;
 
-import com.cashmachine.api.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.cashmachine.api.model.Transaction;
 
 import java.util.List;
 

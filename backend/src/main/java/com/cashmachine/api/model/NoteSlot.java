@@ -1,52 +1,40 @@
 package com.cashmachine.api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "note_slots")
 public class NoteSlot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    private Integer denomination;
-    private Integer quantity;
+    private int value;
+    private int quantity;
 
-    // Construtor padrão
-    public NoteSlot() {
-    }
+    // Construtores
+    public NoteSlot() {}
 
-    // Construtor com parâmetros
-    public NoteSlot(Integer denomination, Integer quantity) {
-        this.denomination = denomination;
+    public NoteSlot(int value, int quantity) {
+        this.value = value;
         this.quantity = quantity;
     }
 
     // Getters e Setters
-    public Integer getId() {
-        return id;
+    public int getValue() {
+        return value;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setValue(int value) {
+        this.value = value;
     }
 
-    public Integer getDenomination() {
-        return denomination;
-    }
-
-    public void setDenomination(Integer denomination) {
-        this.denomination = denomination;
-    }
-
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 }

@@ -1,13 +1,12 @@
 package com.cashmachine.api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
+import com.cashmachine.api.observer.AccountObservable;
+
+import javax.persistence.*;
 
 @Entity
-public abstract class Account {
+@Table(name = "accounts")
+public abstract class Account extends AccountObservable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,37 +30,37 @@ public abstract class Account {
         this.balance = balance;
     }
 
-    // Getters
+    // Getters e Setters
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getType() {
         return type;
     }
 
-    public String getLevel() {
-        return level;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    // Setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getLevel() {
+        return level;
     }
 
     public void setLevel(String level) {
         this.level = level;
     }
 
+    public double getBalance() {
+        return balance;
+    }
+
     public void setBalance(double balance) {
         this.balance = balance;
+        notifyObservers("Balance updated to: " + balance);
     }
 }
