@@ -1,6 +1,6 @@
 package com.cashmachine.api.repository;
 
-import com.cashmachine.model.User;
+import com.cashmachine.api.model.User;
 
 import java.sql.*;
 

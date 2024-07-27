@@ -8,10 +8,10 @@
 		<version>3.3.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.cashmachine</groupId>
-	<artifactId>api</artifactId>
+	<groupId>com.cashmachine.api</groupId>
+	<artifactId>cash_machine_api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>api</name>
+	<name>cash_machine_api</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

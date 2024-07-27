@@ -1,6 +1,7 @@
 package com.cashmachine.api.controller;
 
 import com.cashmachine.api.model.User;
+import com.cashmachine.api.model.Transaction;
 import com.cashmachine.api.service.AccountService;
 import com.cashmachine.api.service.UserService;
 

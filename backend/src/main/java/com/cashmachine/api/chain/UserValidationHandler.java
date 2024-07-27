@@ -1,6 +1,6 @@
 package com.cashmachine.api.chain;
 
-import com.cashmachine.model.User;
+import com.cashmachine.api.model.User;
 
 public class UserValidationHandler extends ValidationHandler {
     @Override

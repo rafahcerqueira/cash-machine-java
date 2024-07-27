@@ -1,4 +1,4 @@
-package com.cashmachine.api;
+package com.cashmachine.api.cash_machine_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

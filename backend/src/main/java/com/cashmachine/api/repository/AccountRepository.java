@@ -1,6 +1,6 @@
 package com.cashmachine.api.repository;
 
-import com.cashmachine.model.Transaction;
+import com.cashmachine.api.model.Transaction;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package com.cashmachine.api.service;
 
-import com.cashmachine.model.User;
-import com.cashmachine.repository.UserRepository;
+import com.cashmachine.api.model.User;
+import com.cashmachine.api.repository.UserRepository;
 
 import java.sql.SQLException;
 
