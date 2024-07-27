@@ -45,9 +45,4 @@ public class AccountController {
         User user = userService.findById(userId);
         return user != null ? accountService.getTransactionHistory(user) : null;
     }
-
-    @GetMapping("/teste")
-    public String getTest() throws SQLException {
-        return "Teste";
-    }
 }
