@@ -3,7 +3,9 @@ package com.cashmachine.api.service;
 import com.cashmachine.api.model.User;
 
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface UserService {
 
     Optional<User> findById(long id);

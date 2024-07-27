@@ -6,6 +6,9 @@ import com.cashmachine.api.model.Transaction;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public interface AccountService {
 
     boolean deposit(User user, BigDecimal amount);
