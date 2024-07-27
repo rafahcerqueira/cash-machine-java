@@ -2,10 +2,12 @@ package com.cashmachine.api.chain;
 
 import com.cashmachine.api.model.User;
 import com.cashmachine.api.service.UserService;
-import java.sql.SQLException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DatabaseValidationHandler extends ValidationHandler {
-    private UserService userService;
+
+    private final UserService userService;
 
     public DatabaseValidationHandler(UserService userService) {
         this.userService = userService;
@@ -13,15 +15,9 @@ public class DatabaseValidationHandler extends ValidationHandler {
 
     @Override
     public boolean validate(User user) {
-        try {
-            User dbUser = userService.findByName(user.getName());
-            if (dbUser == null) {
-                return false;
-            }
-            return next != null ? next.validate(dbUser) : true;
-        } catch (SQLException e) {
-            e.printStackTrace(); // Trate a exceção conforme necessário
-            return false;
-        }
+        // Verifique se o usuário está presente no banco de dados usando Optional
+        return userService.findByName(user.getName())
+                .map(dbUser -> next != null ? next.validate(dbUser) : true)
+                .orElse(false);
     }
 }

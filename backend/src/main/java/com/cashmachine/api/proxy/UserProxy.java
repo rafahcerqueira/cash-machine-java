@@ -1,23 +1,21 @@
 package com.cashmachine.api.proxy;
 
-import com.cashmachine.api.model.User;
 import com.cashmachine.api.service.UserService;
-import java.sql.SQLException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserProxy {
-    private UserService userService;
+
+    private final UserService userService;
 
     public UserProxy(UserService userService) {
         this.userService = userService;
     }
 
     public boolean validateUser(String username, String password) {
-        try {
-            User user = userService.findByName(username);
-            return user != null && user.getPassword().equals(password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        // Usar Optional para verificar se o usuário existe e comparar a senha
+        return userService.findByName(username)
+            .map(user -> user.getPassword().equals(password))
+            .orElse(false);
     }
 }

@@ -1,43 +1,67 @@
 package com.cashmachine.api.model;
 
-public class User {
-    private int id;
-    private String name;
-    private String accountType;
-    private String accountLevel;
-    private double balance;
-    private String password;
+import javax.persistence.*;
+import java.math.BigDecimal;
 
-    public User(int id, String name, String accountType, String accountLevel, double balance, String password) {
-        this.id = id;
-        this.name = name;
-        this.accountType = accountType;
-        this.accountLevel = accountLevel;
-        this.balance = balance;
-        this.password = password;
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "account_type_id")
+    private AccountType accountType;
+
+    @ManyToOne
+    @JoinColumn(name = "account_level_id")
+    private AccountLevel accountLevel;
+
+    private BigDecimal balance;
+    private String password;
+    private String status;
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
     }
 
-    public int getId() {
-        return id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getAccountType() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public AccountType getAccountType() {
         return accountType;
     }
 
-    public String getAccountLevel() {
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
+    public AccountLevel getAccountLevel() {
         return accountLevel;
     }
 
-    public double getBalance() {
+    public void setAccountLevel(AccountLevel accountLevel) {
+        this.accountLevel = accountLevel;
+    }
+
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
@@ -47,5 +71,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
