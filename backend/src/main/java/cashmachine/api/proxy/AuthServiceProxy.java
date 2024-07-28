@@ -2,39 +2,33 @@ package cashmachine.api.proxy;
 
 import cashmachine.api.dto.AuthResponse;
 import cashmachine.api.dto.LoginRequest;
-import cashmachine.api.exception.MyRuntimeException;
-import cashmachine.api.service.AuthService;
-import cashmachine.api.validation.*;
-import cashmachine.api.validation.interfaces.IValidationHandler;
+import cashmachine.api.model.Account;
+import cashmachine.api.model.User;
 import cashmachine.api.repository.UserRepository;
+
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-// Proxy que valida o login do usuário usando cadeia de responsabilidades.
+@AllArgsConstructor
 public class AuthServiceProxy {
-    private final AuthService authService;
-    private final IValidationHandler validationChain;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthServiceProxy(AuthService authService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
-        this.authService = authService;
-
-        // Criar a cadeia de validação.
-        IValidationHandler usernameHandler = new NameValidationHandler();
-        IValidationHandler accountNumberHandler = new AccountNumberValidationHandler();
-        IValidationHandler passwordHandler = new PasswordValidationHandler(passwordEncoder, userRepository);
-
-        // Configurar a cadeia de responsabilidade.
-        usernameHandler.setNext(accountNumberHandler);
-        accountNumberHandler.setNext(passwordHandler);
-
-        this.validationChain = usernameHandler;  // Início da cadeia de validação.
-    }
-
-    public AuthResponse login(LoginRequest loginRequest) {
-        try {
-            validationChain.handle(loginRequest);  // Inicia a cadeia de validação.
-            return authService.login(loginRequest);
-        } catch (Exception e) {
-            throw new MyRuntimeException("Falha na validação: " + e.getMessage());
+    public AuthResponse login(LoginRequest loginRequest, Account account) {
+        User user = userRepository.findByName(loginRequest.getName()).orElse(null);
+        
+        if (user == null) {
+            return new AuthResponse(null, "Invalid name");
         }
+
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            return new AuthResponse(null, "Invalid password");
+        }
+
+        if (!user.getAccount().equals(account)) {
+            return new AuthResponse(null, "Account does not belong to the user");
+        }
+
+        return new AuthResponse(user, "Authentication successful");
     }
 }

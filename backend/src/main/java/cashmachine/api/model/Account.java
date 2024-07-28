@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,6 +33,7 @@ public class Account implements MyEntity{
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     public Account(String accountNumber, String type, String level, BigDecimal balance, User user) {

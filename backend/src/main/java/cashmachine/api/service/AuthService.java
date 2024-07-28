@@ -1,6 +1,10 @@
 package cashmachine.api.service;
 
 import lombok.AllArgsConstructor;
+import cashmachine.api.chain.interfaces.Validator;
+import cashmachine.api.chain.AccountValidator;
+import cashmachine.api.chain.PasswordValidator;
+import cashmachine.api.chain.NameValidator;
 import cashmachine.api.dto.AuthResponse;
 import cashmachine.api.dto.LoginRequest;
 import cashmachine.api.dto.RegisterRequest;
@@ -56,8 +60,19 @@ public class AuthService {
 
     @Transactional
     public AuthResponse login(LoginRequest loginRequest) {
-        AuthServiceProxy proxy = new AuthServiceProxy(this, passwordEncoder, userRepository);
-        return proxy.login(loginRequest);
+        Account account = accountRepository.findByAccountNumber(loginRequest.getAccountNumber());
+        if (account == null) return new AuthResponse(null, "Account not found");
+
+        Validator nameValidator = new NameValidator(userRepository);
+        Validator accountValidator = new AccountValidator(userRepository);
+        Validator passwordValidator = new PasswordValidator();
+
+        nameValidator.validate(loginRequest);
+        accountValidator.validate(loginRequest);
+        passwordValidator.validate(loginRequest);
+
+        AuthServiceProxy authServiceProxy = new AuthServiceProxy(userRepository, passwordEncoder);
+        return authServiceProxy.login(loginRequest, account);
     }
 
     @Transactional
