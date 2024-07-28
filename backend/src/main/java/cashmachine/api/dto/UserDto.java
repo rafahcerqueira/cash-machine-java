@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import cashmachine.api.enums.AccountType;
-import cashmachine.api.enums.AccountLevel;
+import cashmachine.api.model.Account;
+
 
 @Data
 @AllArgsConstructor
@@ -14,6 +14,5 @@ public class UserDto implements Dto{
 
     private Long id;
     private String name;
-    private AccountType accountType;
-    private AccountLevel accountLevel;
+    private Account account;
 }

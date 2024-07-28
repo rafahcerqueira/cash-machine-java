@@ -8,9 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import cashmachine.api.enums.AccountLevel;
-import cashmachine.api.enums.AccountType;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,11 +26,44 @@ public class User implements MyEntity{
     @NotNull(message = "Password is required")
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "account_type", nullable = false)
-    private AccountType accountType;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Account account;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "account_level", nullable = false)
-    private AccountLevel accountLevel; 
+    public User(String name, String password, Account account) {
+        this.name = name;
+        this.password = password;
+        this.account = account;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

@@ -22,24 +22,19 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long id){
         UserDto userDto = userService.getUser(id);
-        return new ResponseEntity<>(userDto,HttpStatus.OK);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
     @GetMapping("/profile-info/{name}")
     public ResponseEntity<UserDto> getProfileInfo(@PathVariable String name){
         UserDto userResponse=userService.getProfileInfo(name);
-        return new ResponseEntity<UserDto>(userResponse,HttpStatus.OK);
-    }
-
-    @GetMapping("/teste")
-    public ResponseEntity<String> getTeste(){
-        return new ResponseEntity<String>("Deu bom",HttpStatus.OK);
+        return new ResponseEntity<UserDto>(userResponse, HttpStatus.OK);
     }
 
     @PatchMapping
-    public ResponseEntity updateUser(@RequestBody UserDto userDto){
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDto userDto){
         userService.updateUser(userDto);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ExceptionHandler(MyRuntimeException.class)
