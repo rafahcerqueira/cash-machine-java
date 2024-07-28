@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-CashMachineApplication<cash-machine>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "cashmachine.api.CashMachineApplication",
+      "projectName": "cash-machine",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
