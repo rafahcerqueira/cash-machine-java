@@ -40,12 +40,14 @@ public class AuthController {
     public  ResponseEntity<String> handleDataIntegrityViolationException(){
         return new ResponseEntity<>("Account with given name already exists", HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public  ResponseEntity<List<String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
         List<ObjectError> allErrors = ex.getAllErrors();
         List<String> collect = allErrors.stream().map(err -> err.getDefaultMessage()).collect(Collectors.toList());
         return new ResponseEntity<>(collect, HttpStatus.BAD_REQUEST);
     }
+    
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<String> authExceptionHandler(AuthenticationException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
