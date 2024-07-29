@@ -41,6 +41,7 @@ export const WrapperTitle = styled.div`
     display: flex;
     align-items: center;
     gap: 1rem;
+    color: ${theme.colors.p1_30};
 
     img {
       width: 8vw;
@@ -52,7 +53,7 @@ export const WrapperTitle = styled.div`
     font-weight: ${theme.typography.fontWeights.medium};
     line-height: ${theme.typography.lineHeights.title};
     padding: 2rem 0;
-    color: ${theme.colors.p1};
+    color: ${theme.colors.p1_30};
   }
 
   @media (max-width: 1240px) {

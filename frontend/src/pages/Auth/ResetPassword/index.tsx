@@ -17,7 +17,6 @@ import { ResetPasswordSchema } from "@/utils/resetPasswordSchema";
 import InfoLogin from "@/components/globals/Layout/InfoLogin";
 import InputPassword from "@/components/globals/Forms/InputPassword";
 import ButtonDefault from "@/components/globals/Forms/ButtonDefault";
-import LogoCashMachine from "@/assets/images/cash-machine.svg";
 
 type Inputs = z.infer<typeof ResetPasswordSchema>;
 
@@ -62,10 +61,6 @@ export default function ResetPassword() {
         <InfoLogin />
         <ContainerForm>
           <WrapperTitle>
-            <div>
-              Seja bem-vindo ao
-              <img src={LogoCashMachine} alt="Logo - Cash Machine" />
-            </div>
             <h2>Redefinir Senha</h2>
           </WrapperTitle>
           <WrapperForm onSubmit={handleSubmit(onSubmit)}>

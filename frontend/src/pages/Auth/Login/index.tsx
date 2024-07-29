@@ -18,7 +18,6 @@ import InfoLogin from "@/components/globals/Layout/InfoLogin";
 import InputLogin from "@/components/globals/Forms/InputLogin";
 import InputPassword from "@/components/globals/Forms/InputPassword";
 import ButtonDefault from "@/components/globals/Forms/ButtonDefault";
-import LogoCashMachine from "@/assets/images/cash-machine.svg";
 import { useEffect } from "react";
 
 type Inputs = z.infer<typeof LoginSchema>;
@@ -41,7 +40,7 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      await loginIn({ account: data.conta, password: data.senha });
+      await loginIn({ account: data.conta, name: "", password: data.senha });
       reset();
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -56,18 +55,9 @@ export default function Login() {
 
   useEffect(() => {
     if (user.account) {
-      navigate("/primeiro-acesso");
+      navigate("/cadastro");
     }
   }, [user]);
-
-  const onChangeCpf = (value: string) => {
-    const clearCPF = value.replace(/\D+/g, "");
-    const maskedCPF = clearCPF.replace(
-      /(\d{3})(\d{3})(\d{3})(\d{2})/,
-      "$1.$2.$3-$4"
-    );
-    setValue("conta", maskedCPF);
-  };
 
   return (
     <WrapperLogin>
@@ -76,22 +66,26 @@ export default function Login() {
         <InfoLogin />
         <ContainerForm>
           <WrapperTitle>
-            <div>
-              Seja bem-vindo ao
-              <img src={LogoCashMachine} alt="Logo - Cash Machine" />
-            </div>
             <h2>Entrar</h2>
           </WrapperTitle>
           <WrapperForm onSubmit={handleSubmit(onSubmit)}>
             <InputLogin
               label="Conta"
               placeholder="Digite sua conta"
-              messageError={errors.conta?.message}
+              messageError={errors.account?.message}
               register={register}
-              registerName="conta"
+              registerName="account"
               type="text"
               maxLength={14}
-              onMaskChange={onChangeCpf}
+            />
+            <InputLogin
+              label="Nome"
+              placeholder="Digite seu nome"
+              messageError={errors.name?.message}
+              register={register}
+              registerName="name"
+              type="text"
+              maxLength={50}
             />
             <WrapperPassword>
               <InputPassword

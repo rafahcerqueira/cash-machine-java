@@ -17,11 +17,10 @@ import { ResetPasswordSchema } from "@/utils/resetPasswordSchema";
 import InfoLogin from "@/components/globals/Layout/InfoLogin";
 import InputPassword from "@/components/globals/Forms/InputPassword";
 import ButtonDefault from "@/components/globals/Forms/ButtonDefault";
-import LogoCashMachine from "@/assets/images/cash-machine.svg";
 
 type Inputs = z.infer<typeof ResetPasswordSchema>;
 
-export default function FirstAccess() {
+export default function Register() {
   const { resetPassword } = useAuth();
   const navigate = useNavigate();
 
@@ -55,6 +54,15 @@ export default function FirstAccess() {
       });
   };
 
+  const onChangeCpf = (value: string) => {
+    const clearCPF = value.replace(/\D+/g, "");
+    const maskedCPF = clearCPF.replace(
+      /(\d{3})(\d{3})(\d{3})(\d{2})/,
+      "$1.$2.$3-$4"
+    );
+    setValue("conta", maskedCPF);
+  };
+
   return (
     <WrapperLogin>
       <FixedStripe></FixedStripe>
@@ -62,15 +70,21 @@ export default function FirstAccess() {
         <InfoLogin />
         <ContainerForm>
           <WrapperTitle>
-            <div>
-              Seja bem-vindo ao
-              <img src={LogoCashMachine} alt="Logo - Cash Machine" />
-            </div>
             <h2>Escolha sua senha</h2>
           </WrapperTitle>
           <WrapperForm onSubmit={handleSubmit(onSubmit)}>
+            <InputLogin
+              label="Conta"
+              placeholder="Digite seu CPF"
+              messageError={errors.cpf?.message}
+              register={register}
+              registerName="conta"
+              type="text"
+              maxLength={14}
+              onMaskChange={onChangeCpf}
+            />
             <InputPassword
-              label="Nova senha"
+              label="Senha"
               placeholder="Digite sua senha"
               messageError={errors.senha?.message}
               register={register}
