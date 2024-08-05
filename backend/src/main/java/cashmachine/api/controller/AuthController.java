@@ -32,8 +32,19 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody @Valid LoginRequest loginRequest){
-        return authService.login(loginRequest);
+    public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest loginRequest){
+        try {
+            AuthResponse authResponse = authService.login(loginRequest);
+            if (authResponse.getUser() != null) {
+                return new ResponseEntity<>(authResponse, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(new AuthResponse(null, "Account not found"), HttpStatus.UNAUTHORIZED);
+            }
+        } catch (AuthenticationException ex) {
+            return new ResponseEntity<>(new AuthResponse(null, ex.getMessage()), HttpStatus.UNAUTHORIZED);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new AuthResponse(null, "An error occurred"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

@@ -8,27 +8,44 @@ type Props = {
 type AuthProviderData = {
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-  user: UserProps;
-  loginIn: ({ account, name, password }: LoginInProps) => Promise<void>;
+  user: UserProps | null;
+  loginIn: ({ accountNumber, name, password }: LoginInProps) => Promise<void>;
   logout: () => void;
+  register: ({ name, password, type, level }: RegisterProps) => Promise<void>;
   resetPassword: ({
+    account,
     password,
     confirmPassword,
   }: ResetPasswordProps) => Promise<void>;
+  errorMessage: string | null;
 };
 
 type UserProps = {
+  id: number;
   name: string;
-  account: string;
-  cpf: string;
+  password: string;
+  account: AccountProps;
+};
+
+type AccountProps = {
+  id: number;
+  accountNumber: string;
   type: string;
   level: string;
+  balance: number;
 };
 
 type LoginInProps = {
-  account: string;
+  accountNumber: string;
   name: string;
   password: string;
+};
+
+type RegisterProps = {
+  name: string;
+  password: string;
+  type: string;
+  level: string;
 };
 
 type ResetPasswordProps = {
@@ -43,49 +60,75 @@ const AuthContext = React.createContext<AuthProviderData>(
 
 const AuthProvider: React.FC<Props> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<UserProps>({} as UserProps);
+  const [user, setUser] = useState<UserProps | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const loginIn = async ({ ...data }: LoginInProps): Promise<void> => {
+  const loginIn = async ({
+    accountNumber,
+    name,
+    password,
+  }: LoginInProps): Promise<void> => {
     try {
-      const response = await axios.post("/login", data);
+      const response = await axios.post("/api/auth/login", {
+        accountNumber,
+        name,
+        password,
+      });
 
-      setUser(response.data);
-
-      console.log("response: ", response);
-      console.log("response.data: ", response.data);
+      if (response.data.user) {
+        const userData = response.data.user;
+        setUser(userData);
+        setIsAuthenticated(true);
+        setErrorMessage(null);
+      } else {
+        setErrorMessage(response.data.message || "Login failed");
+        setIsAuthenticated(false);
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Login error:", error);
+      setErrorMessage("An error occurred during login");
+      setIsAuthenticated(false);
+    }
+  };
+
+  const register = async ({
+    name,
+    password,
+    type,
+    level,
+  }: RegisterProps): Promise<void> => {
+    try {
+      await axios.post("/api/auth/register", {
+        name,
+        password,
+        type,
+        level,
+      });
+    } catch (error) {
+      console.error("Registration error:", error);
       throw error;
     }
   };
 
-  const resetPassword = ({
+  const resetPassword = async ({
+    account,
     password,
     confirmPassword,
   }: ResetPasswordProps): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      try {
-        // [POST]
-        const response = {
-          name: "Daniel",
-          account: "12345678910",
-          cpf: "123.456.789-10",
-          type: "corrente",
-          level: "ouro",
-        };
-        setUser(response);
-        console.log("Senha: ", password);
-        console.log("Confirmar Senha: ", confirmPassword);
-        resolve();
-      } catch (error) {
-        console.log(error);
-        reject(error);
-      }
-    });
+    try {
+      await axios.post("/api/auth/reset-password", {
+        account,
+        password,
+        confirmPassword,
+      });
+    } catch (error) {
+      console.error("Reset Password error:", error);
+      throw error;
+    }
   };
 
   const logout = (): void => {
-    setUser({} as UserProps);
+    setUser(null);
     setIsAuthenticated(false);
   };
 
@@ -97,7 +140,9 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         user,
         loginIn,
         logout,
+        register,
         resetPassword,
+        errorMessage,
       }}
     >
       {children}

@@ -6,7 +6,7 @@ export default function Operations() {
   return (
     <Wrapper>
       <HeaderTitle>OPERAÇÕES</HeaderTitle>
-      <Container>opa</Container>
+      <Container>under implementation</Container>
     </Wrapper>
   );
 }

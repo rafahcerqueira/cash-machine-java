@@ -107,7 +107,7 @@ export const TextFieldStyles = {
 
     "& .MuiInputBase-input": {
       fontSize: theme.typography.fontSizes.input,
-      color: theme.colors.p1_50,
+      color: theme.colors.p1_30,
       fontWeight: theme.typography.fontWeights.medium,
     },
   },

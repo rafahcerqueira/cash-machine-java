@@ -13,54 +13,46 @@ import { useAuth } from "@/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ResetPasswordSchema } from "@/utils/resetPasswordSchema";
+import { RegisterSchema } from "@/utils/registerSchema";
 import InfoLogin from "@/components/globals/Layout/InfoLogin";
+import InputLogin from "@/components/globals/Forms/InputLogin";
 import InputPassword from "@/components/globals/Forms/InputPassword";
 import ButtonDefault from "@/components/globals/Forms/ButtonDefault";
 
-type Inputs = z.infer<typeof ResetPasswordSchema>;
+type Inputs = z.infer<typeof RegisterSchema>;
 
 export default function Register() {
-  const { resetPassword } = useAuth();
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const {
-    register,
+    register: formRegister,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<Inputs>({
     mode: "all",
     criteriaMode: "all",
-    resolver: zodResolver(ResetPasswordSchema),
+    resolver: zodResolver(RegisterSchema),
   });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    resetPassword({
-      password: data.senha,
-      confirmPassword: data.confirmar_senha,
-    })
-      .then(() => {
-        navigate("/");
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 400) {
-          console.error("Senha e confirmação de senha não conferem.");
-        } else if (error.response && error.response.status === 404) {
-          console.error("Usuário não encontrado.");
-        } else {
-          console.error(error);
-        }
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      await register({
+        name: data.name,
+        password: data.password,
+        type: data.accountType,
+        level: data.accountLevel,
       });
-  };
-
-  const onChangeCpf = (value: string) => {
-    const clearCPF = value.replace(/\D+/g, "");
-    const maskedCPF = clearCPF.replace(
-      /(\d{3})(\d{3})(\d{3})(\d{2})/,
-      "$1.$2.$3-$4"
-    );
-    setValue("conta", maskedCPF);
+      reset();
+      navigate("/");
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        console.error("Dados inválidos.");
+      } else {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -70,33 +62,54 @@ export default function Register() {
         <InfoLogin />
         <ContainerForm>
           <WrapperTitle>
-            <h2>Escolha sua senha</h2>
+            <h2>Registro</h2>
           </WrapperTitle>
           <WrapperForm onSubmit={handleSubmit(onSubmit)}>
             <InputLogin
-              label="Conta"
-              placeholder="Digite seu CPF"
-              messageError={errors.cpf?.message}
-              register={register}
-              registerName="conta"
+              label="Nome"
+              placeholder="Digite seu nome"
+              messageError={errors.name?.message}
+              register={formRegister}
+              registerName="name"
               type="text"
-              maxLength={14}
-              onMaskChange={onChangeCpf}
             />
+            <label htmlFor="accountType">Tipo de Conta</label>
+            <select
+              id="accountType"
+              {...formRegister("accountType")}
+              style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }}
+            >
+              <option value="CORRENTE">CORRENTE</option>
+              <option value="POUPANCA">POUPANCA</option>
+            </select>
+            {errors.accountType && <p>{errors.accountType.message}</p>}
+
+            <label htmlFor="accountLevel">Nível de Conta</label>
+            <select
+              id="accountLevel"
+              {...formRegister("accountLevel")}
+              style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }}
+            >
+              <option value="OURO">OURO</option>
+              <option value="PRATA">PRATA</option>
+              <option value="BRONZE">BRONZE</option>
+            </select>
+            {errors.accountLevel && <p>{errors.accountLevel.message}</p>}
+
             <InputPassword
               label="Senha"
               placeholder="Digite sua senha"
-              messageError={errors.senha?.message}
-              register={register}
-              registerName="senha"
+              messageError={errors.password?.message}
+              register={formRegister}
+              registerName="password"
             />
             <WrapperPassword>
               <InputPassword
-                label="Digite senha novamente"
-                placeholder="Digite sua senha"
-                messageError={errors.confirmar_senha?.message}
-                register={register}
-                registerName="confirmar_senha"
+                label="Confirme sua senha"
+                placeholder="Digite sua senha novamente"
+                messageError={errors.confirmPassword?.message}
+                register={formRegister}
+                registerName="confirmPassword"
               />
               <WrapperButton>
                 Já tem cadastro?{" "}
@@ -108,7 +121,7 @@ export default function Register() {
               variant="contained"
               color="secondary"
               type="submit"
-              text="ENTRAR"
+              text="CADASTRAR"
               styles={{ width: "100%", height: "3rem", fontSize: "1rem" }}
             />
           </WrapperForm>

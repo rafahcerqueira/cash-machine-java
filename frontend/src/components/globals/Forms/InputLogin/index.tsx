@@ -5,8 +5,8 @@ type InputLoginProps = {
   label: string;
   placeholder: string;
   messageError?: string;
-  register: UseFormRegister<{ conta: string; senha: string }>;
-  registerName: "conta" | "senha";
+  register: UseFormRegister<any>;
+  registerName: string;
   type: string;
   maxLength?: number;
   disabled?: boolean;

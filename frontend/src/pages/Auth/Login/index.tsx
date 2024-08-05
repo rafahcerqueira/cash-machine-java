@@ -18,12 +18,11 @@ import InfoLogin from "@/components/globals/Layout/InfoLogin";
 import InputLogin from "@/components/globals/Forms/InputLogin";
 import InputPassword from "@/components/globals/Forms/InputPassword";
 import ButtonDefault from "@/components/globals/Forms/ButtonDefault";
-import { useEffect } from "react";
 
 type Inputs = z.infer<typeof LoginSchema>;
 
 export default function Login() {
-  const { setIsAuthenticated, loginIn, user } = useAuth();
+  const { loginIn, errorMessage } = useAuth();
   const navigate = useNavigate();
 
   const {
@@ -40,24 +39,27 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      await loginIn({ account: data.conta, name: "", password: data.senha });
-      reset();
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        console.error("Credenciais inválidas. Verifique sua conta e senha.");
-      } else if (error.response && error.response.status === 404) {
-        console.error("Usuário não encontrado.");
-      } else {
-        console.error(error);
+      await loginIn({
+        accountNumber: data.accountNumber,
+        name: data.name,
+        password: data.password,
+      });
+      if (errorMessage) {
+        reset();
       }
+    } catch (error) {
+      console.error("Login error:", error);
     }
   };
 
-  useEffect(() => {
-    if (user.account) {
-      navigate("/cadastro");
-    }
-  }, [user]);
+  const onChangeAccountNumber = (value: string) => {
+    const clearAccountNumber = value.replace(/\D+/g, "");
+    const maskedAccountNumber = clearAccountNumber.replace(
+      /(\d{7})(\d{0,7})/,
+      "$1-$2"
+    );
+    setValue("accountNumber", maskedAccountNumber);
+  };
 
   return (
     <WrapperLogin>
@@ -72,11 +74,12 @@ export default function Login() {
             <InputLogin
               label="Conta"
               placeholder="Digite sua conta"
-              messageError={errors.account?.message}
+              messageError={errors.accountNumber?.message}
               register={register}
-              registerName="account"
+              registerName="accountNumber"
               type="text"
-              maxLength={14}
+              maxLength={9}
+              onMaskChange={onChangeAccountNumber}
             />
             <InputLogin
               label="Nome"
@@ -91,9 +94,9 @@ export default function Login() {
               <InputPassword
                 label="Senha"
                 placeholder="Digite sua senha"
-                messageError={errors.senha?.message}
+                messageError={errors.password?.message}
                 register={register}
-                registerName="senha"
+                registerName="password"
               />
               <WrapperButton>
                 Esqueceu a senha?{" "}
@@ -110,6 +113,15 @@ export default function Login() {
               text="ENTRAR"
               styles={{ width: "100%", height: "3rem", fontSize: "1rem" }}
             />
+            {errorMessage && (
+              <div style={{ color: "red", marginTop: "1rem" }}>
+                {errorMessage}
+              </div>
+            )}
+            <WrapperButton>
+              Não tem uma conta?{" "}
+              <button onClick={() => navigate("/cadastro")}>Registre-se</button>
+            </WrapperButton>
           </WrapperForm>
         </ContainerForm>
       </ContainerLogin>

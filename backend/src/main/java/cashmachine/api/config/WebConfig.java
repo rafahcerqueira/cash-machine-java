@@ -11,14 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @AllArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private AppConfig appConfig;
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns(appConfig.getFrontUrl())
+                .allowedOrigins("http://localhost:5173")
                 .allowedMethods("*")
-                .maxAge(3600L)
                 .allowedHeaders("*")
                 .exposedHeaders("Authorization")
                 .allowCredentials(true);

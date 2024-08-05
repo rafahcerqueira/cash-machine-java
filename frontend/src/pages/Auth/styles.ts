@@ -80,15 +80,16 @@ export const WrapperButton = styled.div`
   justify-content: end;
   gap: 0.5rem;
   font-size: ${theme.typography.fontSizes.label};
-  color: ${theme.colors.black};
+  color: ${theme.colors.white};
 
   button {
     border: none;
     outline: none;
     cursor: pointer;
     font-size: ${theme.typography.fontSizes.label};
-    font-weight: ${theme.typography.fontWeights.medium};
+    font-weight: ${theme.typography.fontWeights.bold};
     background-color: transparent;
+    color: ${theme.colors.white};
 `;
 
 export const WrapperPassword = styled.div`

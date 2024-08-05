@@ -13,7 +13,7 @@ type InputPasswordProps = {
   placeholder: string;
   messageError?: string;
   register: UseFormRegister<any>;
-  registerName: "senha" | "confirmar_senha";
+  registerName: "password" | "confirmPassword";
   maxLength?: number;
   disabled?: boolean;
 };
