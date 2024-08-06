@@ -34,47 +34,18 @@ public class SecurityConfig{
 
     private RsaKeyProperties rsaKeyProperties;
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests()
-                        .antMatchers("/api/auth/**")
-                        .permitAll()
-                        .antMatchers(HttpMethod.OPTIONS,"/**")
-                        .permitAll()
-                        .antMatchers(HttpMethod.GET, "/api/topic/**")
-                        .permitAll()
-                        .antMatchers("/api/post/authAll")
-                        .hasAuthority("SCOPE_USER")
-                        .antMatchers(HttpMethod.GET, "/api/post/{id}")
-                        .permitAll()
-                        .antMatchers(HttpMethod.GET, "/api/post/all")
-                        .permitAll()
-                        .antMatchers("/api/post/secured/**")
-                        .hasAuthority("SCOPE_ADMIN")
-                        .antMatchers("/sba-websocket/**")
-                        .permitAll()
-                        .antMatchers(HttpMethod.GET, "/api/comment/**")
-                        .permitAll()
-                        .antMatchers(HttpMethod.GET, "/api/user/**")
-                        .permitAll()
-                        .antMatchers("/api/admin/**")
-                        .hasAuthority("SCOPE_ADMIN")
-                        .antMatchers("/api/role/**")
-                        .permitAll()
-                        .antMatchers("/api/user/{name}/assign/{rolename}")
-                        .permitAll()
-                        .antMatchers(HttpMethod.DELETE,"/api/user/**")
-                        .hasAuthority("SCOPE_ADMIN")
-                        .antMatchers("/api/message/**")
-                        .hasAuthority("SCOPE_USER")
-                        .anyRequest()
-                        .authenticated()
-                        .and().sessionManagement()
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                        .and().oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+                    .antMatchers("/api/transactions/**").permitAll()
+                    .antMatchers("/api/user/**").permitAll()
+                    .antMatchers("/api/auth/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and().sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and().oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
         return http.build();
     }
 
@@ -82,7 +53,6 @@ public class SecurityConfig{
     public JwtDecoder jwtDecoder(){
         return NimbusJwtDecoder.withPublicKey(rsaKeyProperties.getPublicKey()).build();
     }
-
 
     @Bean
     public JwtEncoder jwtEncoder(){
@@ -109,5 +79,4 @@ public class SecurityConfig{
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
 }
