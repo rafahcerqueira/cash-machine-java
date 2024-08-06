@@ -1,13 +1,10 @@
 package cashmachine.api.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import lombok.AllArgsConstructor;
 import cashmachine.api.model.Account;
 import cashmachine.api.model.Transaction;

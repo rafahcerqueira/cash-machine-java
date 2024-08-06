@@ -1,15 +1,15 @@
 package cashmachine.api.controller;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import cashmachine.api.model.Transaction;
-import cashmachine.api.service.TransactionService;
-
+import cashmachine.api.dto.DepositRequest;
+import cashmachine.api.dto.TransferRequest;
+import cashmachine.api.dto.WithdrawRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
-import java.util.List;
+import cashmachine.api.service.TransactionService;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -18,20 +18,20 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping("/deposit")
-    public ResponseEntity<Void> deposit(@RequestParam Long userId, @RequestParam BigDecimal amount) {
-        transactionService.deposit(userId, amount);
+    public ResponseEntity<Void> deposit(@RequestBody DepositRequest depositRequest) {
+        transactionService.deposit(depositRequest.getUserId(), depositRequest.getAmount());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<Void> withdraw(@RequestParam Long userId, @RequestParam BigDecimal amount) {
-        transactionService.withdraw(userId, amount);
+    public ResponseEntity<Void> withdraw(@RequestBody WithdrawRequest withdrawRequest) {
+        transactionService.withdraw(withdrawRequest.getUserId(), withdrawRequest.getAmount());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<Void> transfer(@RequestParam Long sourceUserId, @RequestParam Long targetUserId, @RequestParam BigDecimal amount) {
-        transactionService.transfer(sourceUserId, targetUserId, amount);
+    public ResponseEntity<Void> transfer(@RequestBody TransferRequest transferRequest) {
+        transactionService.transfer(transferRequest.getSourceUserId(), transferRequest.getTargetUserId(), transferRequest.getAmount());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
