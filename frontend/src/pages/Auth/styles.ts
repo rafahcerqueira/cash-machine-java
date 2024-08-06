@@ -99,6 +99,11 @@ export const WrapperPassword = styled.div`
   padding-bottom: 1rem;
 `;
 
+export const WrapperSelect = styled.div`
+  display: flex;
+  gap: 2rem;
+`;
+
 export const FixedStripe = styled.div`
   position: fixed;
   inset: 0 80% 0 22%;
