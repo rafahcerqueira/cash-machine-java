@@ -6,9 +6,6 @@ import cashmachine.api.repository.MyRepository;
 
 import java.util.List;
 
-/**
- * @author UrosVesic
- */
 public interface MyEntity {
 
     public default List<MyRepository> returnChildRepositories(@Autowired ApplicationContext context){
