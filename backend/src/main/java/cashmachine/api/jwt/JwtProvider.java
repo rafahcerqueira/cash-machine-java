@@ -15,9 +15,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.security.core.userdetails.User;
 
-/**
- * @author UrosVesic
- */
 @Service
 @AllArgsConstructor
 public class JwtProvider {

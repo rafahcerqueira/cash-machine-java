@@ -22,7 +22,7 @@ export const DatagridStyles = {
   },
 
   "& .MuiDataGrid-cell": {
-    color: theme.colors.p4,
+    color: theme.colors.white,
     fontSize: theme.typography.fontSizes.cell_datagrid,
     fontWeight: theme.typography.fontWeights.medium,
   },
@@ -36,7 +36,7 @@ export const DatagridStyles = {
     margin: ".6rem 0",
 
     "& .MuiButtonBase-root": {
-      color: theme.colors.p1,
+      color: theme.colors.p1_30,
       borderRadius: "10rem",
     },
   },
