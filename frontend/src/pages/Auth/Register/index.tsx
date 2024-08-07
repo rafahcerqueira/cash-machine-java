@@ -46,14 +46,14 @@ export default function Register() {
     try {
       console.log(data);
 
-      // await authRegister({
-      //   name: data.name,
-      //   password: data.password,
-      //   type: data.accountType,
-      //   level: data.accountLevel,
-      // });
-      // reset();
-      // navigate("/");
+      await authRegister({
+        name: data.name,
+        password: data.password,
+        type: data.accountType,
+        level: data.accountLevel,
+      });
+      reset();
+      navigate("/");
     } catch (error) {
       if (error.response && error.response.status === 400) {
         console.error("Dados inválidos.");

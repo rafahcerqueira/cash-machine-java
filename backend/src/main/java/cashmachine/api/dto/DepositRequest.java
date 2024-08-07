@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -12,4 +13,5 @@ import java.math.BigDecimal;
 public class DepositRequest {
     private Long userId;
     private BigDecimal amount;
+    private Map<Integer, Integer> notes;
 }

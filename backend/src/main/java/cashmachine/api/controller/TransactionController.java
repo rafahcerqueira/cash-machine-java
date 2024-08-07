@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import cashmachine.api.service.TransactionService;
+import cashmachine.api.exception.MyRuntimeException;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -18,26 +19,46 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping("/deposit")
-    public ResponseEntity<Void> deposit(@RequestBody DepositRequest depositRequest) {
-        transactionService.deposit(depositRequest.getUserId(), depositRequest.getAmount());
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> deposit(@RequestBody DepositRequest depositRequest) {
+        try {
+            transactionService.deposit(depositRequest.getUserId(), depositRequest.getAmount(), depositRequest.getNotes());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>( e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<Void> withdraw(@RequestBody WithdrawRequest withdrawRequest) {
-        transactionService.withdraw(withdrawRequest.getUserId(), withdrawRequest.getAmount());
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> withdraw(@RequestBody WithdrawRequest withdrawRequest) {
+        try {
+            transactionService.withdraw(withdrawRequest.getUserId(), withdrawRequest.getAmount(), withdrawRequest.getNotes());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (MyRuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<Void> transfer(@RequestBody TransferRequest transferRequest) {
-        transactionService.transfer(transferRequest.getSourceUserId(), transferRequest.getTargetUserId(), transferRequest.getAmount());
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> transfer(@RequestBody TransferRequest transferRequest) {
+        try {
+            transactionService.transfer(transferRequest.getSourceUserId(), transferRequest.getTargetUserId(), transferRequest.getAmount());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (MyRuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<List<Transaction>> getTransactions(@PathVariable Long userId) {
-        List<Transaction> transactions = transactionService.getTransactions(userId);
-        return new ResponseEntity<>(transactions, HttpStatus.OK);
+        try {
+            List<Transaction> transactions = transactionService.getTransactions(userId);
+            return new ResponseEntity<>(transactions, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
