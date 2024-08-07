@@ -14,4 +14,5 @@ public class DepositRequest {
     private Long userId;
     private BigDecimal amount;
     private Map<Integer, Integer> notes;
+    private Boolean isDollar;
 }

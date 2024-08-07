@@ -11,27 +11,40 @@ import lombok.AllArgsConstructor;
 import cashmachine.api.model.Account;
 import cashmachine.api.model.Transaction;
 import cashmachine.api.model.User;
+import cashmachine.api.observer.Subject;
+import cashmachine.api.observer.WithdrawEvent;
+import cashmachine.api.observer.DepositEvent;
+import cashmachine.api.observer.TransferEvent;
 import cashmachine.api.model.NoteSlot;
 import cashmachine.api.repository.AccountRepository;
 import cashmachine.api.repository.TransactionRepository;
 import cashmachine.api.repository.UserRepository;
 import cashmachine.api.repository.NoteSlotRepository;
+import cashmachine.api.adapter.DollarToRealAdapter;
+import cashmachine.api.adapter.IMoneyConverter;
 import cashmachine.api.exception.MyRuntimeException;
 
 @Service
 @AllArgsConstructor
-public class TransactionService {
+public class TransactionService extends Subject {
+
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
     private final NoteSlotRepository noteSlotRepository;
+    private final IMoneyConverter moneyConverter = new DollarToRealAdapter();
 
     @Transactional
-    public void deposit(Long userId, BigDecimal amount, Map<Integer, Integer> requestedNotes) {
+    public void deposit(Long userId, BigDecimal amount, Map<Integer, Integer> requestedNotes, boolean isDollar) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new MyRuntimeException("User not found"));
 
         Account account = user.getAccount();
+
+        if (isDollar) {
+            amount = BigDecimal.valueOf(moneyConverter.convert(amount.doubleValue()));
+        }
+
         account.setBalance(account.getBalance().add(amount));
         accountRepository.save(account);
 
@@ -41,14 +54,22 @@ public class TransactionService {
 
         // Atualizar os slots de notas
         updateNoteSlotsForDeposit(requestedNotes);
+
+        // Notificar observadores
+        notifyObservers(new DepositEvent(userId, amount, requestedNotes));
     }
 
     @Transactional
-    public void withdraw(Long userId, BigDecimal amount, Map<Integer, Integer> requestedNotes) {
+    public void withdraw(Long userId, BigDecimal amount, Map<Integer, Integer> requestedNotes, boolean isDollar) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new MyRuntimeException("User not found"));
 
         Account account = user.getAccount();
+
+        if (isDollar) {
+            amount = BigDecimal.valueOf(moneyConverter.convert(amount.doubleValue()));
+        }
+
         if (account.getBalance().compareTo(amount) < 0) {
             throw new MyRuntimeException("Insufficient balance");
         }
@@ -68,6 +89,9 @@ public class TransactionService {
         // Registrar transação
         Transaction transaction = new Transaction(userId, "WITHDRAW", amount, LocalDateTime.now());
         transactionRepository.save(transaction);
+
+        // Notificar observadores
+        notifyObservers(new WithdrawEvent(userId, amount, requestedNotes));
     }
 
     @Transactional
@@ -97,6 +121,9 @@ public class TransactionService {
 
         Transaction transactionForRecipient = new Transaction(targetUserId, "RECEIVE_TRANSFER", amount, LocalDateTime.now());
         transactionRepository.save(transactionForRecipient);
+
+        // Notificar observadores
+        notifyObservers(new TransferEvent(sourceUserId, targetUserId, amount));
     }
 
     @Transactional(readOnly = true)
@@ -107,7 +134,7 @@ public class TransactionService {
     private boolean canDispenseAmount(BigDecimal amount, Map<Integer, Integer> requestedNotes) {
         List<NoteSlot> noteSlots = noteSlotRepository.findAll();
         BigDecimal remainingAmount = amount;
-        
+
         // Criar um mapa para manter o estoque das notas
         Map<Integer, Integer> availableNotes = new HashMap<>();
         for (NoteSlot noteSlot : noteSlots) {
@@ -117,7 +144,7 @@ public class TransactionService {
         for (Map.Entry<Integer, Integer> entry : requestedNotes.entrySet()) {
             int noteValue = entry.getKey();
             int requestedQuantity = entry.getValue();
-            
+
             // Verificar se a nota está disponível
             if (availableNotes.containsKey(noteValue)) {
                 int availableQuantity = availableNotes.get(noteValue);
@@ -140,24 +167,24 @@ public class TransactionService {
 
     private void updateNoteSlotsForDeposit(Map<Integer, Integer> requestedNotes) {
         List<NoteSlot> noteSlots = noteSlotRepository.findAll();
-        
+
         for (NoteSlot noteSlot : noteSlots) {
             int noteValue = noteSlot.getValue();
             int noteQuantity = noteSlot.getQuantity();
-    
+
             if (requestedNotes.containsKey(noteValue)) {
                 int requestedQuantity = requestedNotes.get(noteValue);
-    
+
                 // Atualizar a quantidade de notas no estoque para depósito
                 noteSlot.setQuantity(noteQuantity + requestedQuantity);
                 noteSlotRepository.save(noteSlot);
             }
         }
-    }    
+    }
 
     private void updateNoteSlotsForWithdraw(Map<Integer, Integer> requestedNotes) {
         List<NoteSlot> noteSlots = noteSlotRepository.findAll();
-        
+
         for (NoteSlot noteSlot : noteSlots) {
             int noteValue = noteSlot.getValue();
             int noteQuantity = noteSlot.getQuantity();

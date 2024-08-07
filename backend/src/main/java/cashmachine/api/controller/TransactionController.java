@@ -21,8 +21,8 @@ public class TransactionController {
     @PostMapping("/deposit")
     public ResponseEntity<String> deposit(@RequestBody DepositRequest depositRequest) {
         try {
-            transactionService.deposit(depositRequest.getUserId(), depositRequest.getAmount(), depositRequest.getNotes());
-            return new ResponseEntity<>(HttpStatus.OK);
+            transactionService.deposit(depositRequest.getUserId(), depositRequest.getAmount(), depositRequest.getNotes(), depositRequest.getIsDollar());
+            return new ResponseEntity<>("Deposit succesfull", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>( e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -31,8 +31,8 @@ public class TransactionController {
     @PostMapping("/withdraw")
     public ResponseEntity<String> withdraw(@RequestBody WithdrawRequest withdrawRequest) {
         try {
-            transactionService.withdraw(withdrawRequest.getUserId(), withdrawRequest.getAmount(), withdrawRequest.getNotes());
-            return new ResponseEntity<>(HttpStatus.OK);
+            transactionService.withdraw(withdrawRequest.getUserId(), withdrawRequest.getAmount(), withdrawRequest.getNotes(), withdrawRequest.getIsDollar());
+            return new ResponseEntity<>("Withdraw succesfull", HttpStatus.OK);
         } catch (MyRuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -44,7 +44,7 @@ public class TransactionController {
     public ResponseEntity<String> transfer(@RequestBody TransferRequest transferRequest) {
         try {
             transactionService.transfer(transferRequest.getSourceUserId(), transferRequest.getTargetUserId(), transferRequest.getAmount());
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>("Transfer succesfull", HttpStatus.OK);
         } catch (MyRuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
