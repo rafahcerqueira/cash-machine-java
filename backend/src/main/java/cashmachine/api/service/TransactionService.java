@@ -110,15 +110,27 @@ public class TransactionService extends Subject {
     }
 
     @Transactional
-    public void transfer(Long sourceUserId, Long targetUserId, BigDecimal amount) {
-        User sourceUser = userRepository.findById(sourceUserId)
-                .orElseThrow(() -> new MyRuntimeException("Source user not found"));
+    public void transfer(String accountNumberOrigin, String accountNumberRecipient, BigDecimal amount) {
 
-        User targetUser = userRepository.findById(targetUserId)
-                .orElseThrow(() -> new MyRuntimeException("Target user not found"));
+        Account accountOrigin = accountRepository.findByAccountNumber(accountNumberOrigin);
+        Account accountRecipient = accountRepository.findByAccountNumber(accountNumberRecipient);
 
-        Account sourceAccount = sourceUser.getAccount();
-        Account targetAccount = targetUser.getAccount();
+        if (accountOrigin == null) {
+            throw new MyRuntimeException("Origin account not found");
+        }
+
+        if (accountRecipient == null) {
+            throw new MyRuntimeException("Recipient account not found");
+        }
+
+        User userOrigin = userRepository.findById(accountOrigin.getUser().getId())
+                .orElseThrow(() -> new MyRuntimeException("Origin user not found"));
+
+        User userRecipient = userRepository.findById(accountRecipient.getUser().getId())
+                .orElseThrow(() -> new MyRuntimeException("Recipient user not found"));
+
+        Account sourceAccount = userOrigin.getAccount();
+        Account targetAccount = userRecipient.getAccount();
 
         if (sourceAccount.getBalance().compareTo(amount) < 0) {
             throw new MyRuntimeException("Saldo insuficiente");
@@ -131,14 +143,14 @@ public class TransactionService extends Subject {
         accountRepository.save(targetAccount);
 
         // Registrar transações
-        Transaction transaction = new Transaction(sourceUserId, "TRANSFER", amount, LocalDateTime.now());
+        Transaction transaction = new Transaction(userOrigin.getId(), "TRANSFER", amount, LocalDateTime.now());
         transactionRepository.save(transaction);
 
-        Transaction transactionForRecipient = new Transaction(targetUserId, "RECEIVE_TRANSFER", amount, LocalDateTime.now());
+        Transaction transactionForRecipient = new Transaction(userRecipient.getId(), "RECEIVE_TRANSFER", amount, LocalDateTime.now());
         transactionRepository.save(transactionForRecipient);
 
         // Notificar observadores
-        notifyObservers(new TransferEvent(sourceUserId, targetUserId, amount));
+        notifyObservers(new TransferEvent(accountNumberOrigin, accountNumberRecipient, amount));
     }
 
     @Transactional(readOnly = true)

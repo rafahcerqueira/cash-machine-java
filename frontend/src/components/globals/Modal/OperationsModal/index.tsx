@@ -9,6 +9,7 @@ import { Operations } from "@/enums/Operations";
 import axios from "@/api/axios";
 import { useAuth } from "@/hooks";
 import { useNotification } from "@/hooks/Notification/useNotification";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 type OperationsModalProps = {
   open: boolean;
@@ -145,13 +146,32 @@ export default function OperationsModal({
           )}
         </Box>
         <Box sx={ModalStyles.body}>
-          {(operation === Operations.SACAR ||
-            operation === Operations.DEPOSITAR) && (
+          {operation === Operations.SACAR && (
             <NotesManager
               value={notesValue}
               setValue={setNotesValue}
               listNotes={ListNotes}
             />
+          )}
+          {operation === Operations.DEPOSITAR && (
+            <Box>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    color="secondary"
+                    checked={isDollar}
+                    onChange={() => setIsDollar(!isDollar)}
+                  />
+                }
+                label="Dólar"
+                sx={{ color: "white" }}
+              />
+              <NotesManager
+                value={notesValue}
+                setValue={setNotesValue}
+                listNotes={ListNotes}
+              />
+            </Box>
           )}
         </Box>
         <Box sx={ModalStyles.footer}>

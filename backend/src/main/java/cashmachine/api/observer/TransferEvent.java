@@ -3,30 +3,30 @@ package cashmachine.api.observer;
 import java.math.BigDecimal;
 
 public class TransferEvent {
-    private Long sourceUserId;
-    private Long targetUserId;
+    private String accountNumberOrigin;
+    private String accountNumberRecipient;
     private BigDecimal amount;
 
-    public TransferEvent(Long sourceUserId, Long targetUserId, BigDecimal amount) {
-        this.sourceUserId = sourceUserId;
-        this.targetUserId = targetUserId;
+    public TransferEvent(String accountNumberOrigin, String accountNumberRecipient, BigDecimal amount) {
+        this.accountNumberOrigin = accountNumberOrigin;
+        this.accountNumberRecipient = accountNumberRecipient;
         this.amount = amount;
     }
 
-    public Long getSourceUserId() {
-        return sourceUserId;
+    public String getaccountNumberOrigin() {
+        return accountNumberOrigin;
     }
 
-    public void setSourceUserId(Long sourceUserId) {
-        this.sourceUserId = sourceUserId;
+    public void setaccountNumberOrigin(String accountNumberOrigin) {
+        this.accountNumberOrigin = accountNumberOrigin;
     }
 
-    public Long getTargetUserId() {
-        return targetUserId;
+    public String getaccountNumberRecipient() {
+        return accountNumberRecipient;
     }
 
-    public void setTargetUserId(Long targetUserId) {
-        this.targetUserId = targetUserId;
+    public void setaccountNumberRecipient(String accountNumberRecipient) {
+        this.accountNumberRecipient = accountNumberRecipient;
     }
 
     public BigDecimal getAmount() {
@@ -40,8 +40,8 @@ public class TransferEvent {
     @Override
     public String toString() {
         return "TransferEvent{" +
-                "sourceUserId=" + sourceUserId +
-                ", targetUserId=" + targetUserId +
+                "accountNumberOrigin=" + accountNumberOrigin +
+                ", accountNumberRecipient=" + accountNumberRecipient +
                 ", amount=" + amount +
                 '}';
     }

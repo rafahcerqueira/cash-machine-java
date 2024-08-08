@@ -43,7 +43,7 @@ public class TransactionController {
     @PostMapping("/transfer")
     public ResponseEntity<String> transfer(@RequestBody TransferRequest transferRequest) {
         try {
-            transactionFacade.transfer(transferRequest.getSourceUserId(), transferRequest.getTargetUserId(), transferRequest.getAmount());
+            transactionFacade.transfer(transferRequest.getAccountNumberOrigin(), transferRequest.getAccountNumberRecipient(), transferRequest.getAmount());
             return new ResponseEntity<>("Transfer successful", HttpStatus.OK);
         } catch (MyRuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

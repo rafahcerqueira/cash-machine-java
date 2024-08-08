@@ -21,8 +21,8 @@ public class TransactionFacade {
         transactionService.withdraw(userId, amount, requestedNotes);
     }
 
-    public void transfer(Long sourceUserId, Long targetUserId, BigDecimal amount) {
-        transactionService.transfer(sourceUserId, targetUserId, amount);
+    public void transfer(String accountNumberOrigin, String accountNumberRecipient, BigDecimal amount) {
+        transactionService.transfer(accountNumberOrigin, accountNumberRecipient, amount);
     }
 
     public List<Transaction> getTransactions(Long userId) {
