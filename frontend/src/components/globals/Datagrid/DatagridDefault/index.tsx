@@ -1,4 +1,4 @@
-import { DataGrid, GridToolbar, ptBR } from "@mui/x-data-grid";
+import { DataGrid, GridSortModel, GridToolbar, ptBR } from "@mui/x-data-grid";
 import { DatagridStyles } from "@/theme/defaultStyles";
 import { Container } from "./styles";
 import { CustomNoRowsOverlay } from "../CustomNoRows";
@@ -6,11 +6,13 @@ import { CustomNoRowsOverlay } from "../CustomNoRows";
 type DatagridDefaultProps = {
   columns: any;
   rows: any;
+  sortModel: GridSortModel;
 };
 
 export default function DatagridDefault({
   columns,
   rows,
+  sortModel,
 }: DatagridDefaultProps) {
   return (
     <Container>
@@ -29,6 +31,7 @@ export default function DatagridDefault({
             noRowsOverlay: CustomNoRowsOverlay,
           }}
           localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
+          sortModel={sortModel}
         />
       </div>
     </Container>

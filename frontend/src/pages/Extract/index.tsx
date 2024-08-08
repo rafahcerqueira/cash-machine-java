@@ -15,6 +15,13 @@ interface Transaction {
   date: string;
 }
 
+const typeTransactions: { [key: string]: string } = {
+  WITHDRAW: "Saque",
+  DEPOSIT: "Depósito",
+  TRANSFER: "Transferência",
+  RECEIVE_TRANSFER: "Recebimento de Transferência",
+};
+
 export default function Extract() {
   const { user } = useAuth();
   const [rows, setRows] = useState<Transaction[]>([]);
@@ -23,15 +30,25 @@ export default function Extract() {
   const getExtract = async () => {
     try {
       const response = await axios.get(`/api/transactions/${user?.id}`);
-      const data = response.data.map((transaction: any) => ({
-        id: transaction.id,
-        type: transaction.type === "DEPOSIT" ? "Depósito" : "Saque",
-        amount: transaction.amount,
-        date: dayjs(transaction.date).format("YYYY-MM-DD HH:mm:ss"),
-      }));
+
+      const data = response.data.map((transaction: any) => {
+        // Converte o array de data para um formato de data válido
+        const [year, month, day, hour, minute, second] = transaction.date;
+        const date = dayjs(
+          new Date(year, month - 1, day, hour, minute, second)
+        ).format("YYYY-MM-DD HH:mm:ss");
+
+        return {
+          id: transaction.id,
+          type: typeTransactions[transaction.type] || "Outro",
+          amount: transaction.amount,
+          date: date,
+        };
+      });
+
       setRows(data);
     } catch (error) {
-      console.error(error);
+      console.error("Failed to fetch transactions:", error);
     } finally {
       setLoading(false);
     }
@@ -78,14 +95,17 @@ export default function Extract() {
       ),
     },
     {
-      field: "data",
+      field: "date",
       headerName: "DATA",
       headerClassName: "theme-header",
       flex: 1,
       align: "center",
       headerAlign: "center",
-      sortable: false,
+      sortable: true,
       disableColumnMenu: true,
+      sortComparator: (a, b) => {
+        return dayjs(b).isAfter(dayjs(a)) ? 1 : -1;
+      },
       renderCell: (params) => (
         <span>
           {dayjs(params.value as string, "YYYY-MM-DD HH:mm:ss").format(
@@ -109,7 +129,11 @@ export default function Extract() {
         {loading ? (
           <CircularLoading />
         ) : (
-          <DatagridDefault columns={columns} rows={rows} />
+          <DatagridDefault
+            columns={columns}
+            rows={rows}
+            sortModel={[{ field: "date", sort: "asc" }]}
+          />
         )}
       </Container>
     </Wrapper>

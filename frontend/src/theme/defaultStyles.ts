@@ -43,6 +43,10 @@ export const DatagridStyles = {
 
   "& .MuiDataGrid-footerContainer": {
     borderTop: "none",
+
+    "& .MuiTablePagination-root": {
+      color: theme.colors.p1_30,
+    },
   },
 };
 

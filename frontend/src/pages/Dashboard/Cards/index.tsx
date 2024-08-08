@@ -24,7 +24,6 @@ export default function Cards() {
   }, [user?.id]);
 
   const currentUser = userResponse || user;
-  console.log(currentUser);
 
   return (
     <CardWrapper>
