@@ -99,12 +99,6 @@ export default function Login() {
                 register={register}
                 registerName="password"
               />
-              <WrapperButton>
-                Esqueceu a senha?{" "}
-                <button onClick={() => navigate("/resetar-senha")}>
-                  Clique aqui
-                </button>
-              </WrapperButton>
             </WrapperPassword>
 
             <ButtonDefault

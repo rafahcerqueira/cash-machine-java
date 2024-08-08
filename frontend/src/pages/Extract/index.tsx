@@ -88,7 +88,9 @@ export default function Extract() {
       disableColumnMenu: true,
       renderCell: (params) => (
         <span>
-          {dayjs(params.value as string, "YYYY-MM-DD").format("DD/MM/YYYY")}
+          {dayjs(params.value as string, "YYYY-MM-DD HH:mm:ss").format(
+            "DD/MM/YYYY HH:mm:ss"
+          )}
         </span>
       ),
     },

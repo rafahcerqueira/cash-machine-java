@@ -42,8 +42,6 @@ const Routes = ({ underConstruction = true }) => {
         <Route path="/" element={<PrivateRoutes />}>
           {/* Auth */}
           <Route path="/cadastro" element={<PublicRoutes />} />
-          <Route path="/primeiro-acesso" element={<PublicRoutes />} />
-          <Route path="/resetar-senha" element={<PublicRoutes />} />
           {/* Manutenção */}
           <Route path="/extrato" element={<PrivateRoutes />} />
           <Route path="/extrato/:id" element={<PrivateRoutes />} />

@@ -8,6 +8,7 @@ import NotesManager from "@/components/Utils/NotesManager";
 import { Operations } from "@/enums/Operations";
 import axios from "@/api/axios";
 import { useAuth } from "@/hooks";
+import { useNotification } from "@/hooks/Notification/useNotification";
 
 type OperationsModalProps = {
   open: boolean;
@@ -24,11 +25,44 @@ export default function OperationsModal({
 }: OperationsModalProps) {
   const [notesValue, setNotesValue] = useState<Record<number, number>>({});
   const { user } = useAuth();
+  const showWarningSnackbar = useNotification();
 
   const getTotalValue = () => {
     return ListNotes.reduce((total, note) => {
       return total + (notesValue[note] || 0) * note;
     }, 0);
+  };
+
+  const handleWithdraw = async () => {
+    try {
+      const response = await axios.post("/api/transactions/withdraw", {
+        userId: user?.id,
+        amount: getTotalValue(),
+        notes: notesValue,
+      });
+
+      if (response.status === 200) {
+        showWarningSnackbar({
+          msg: "Saque realizado com sucesso! Imprimindo notas...",
+          severity: "success",
+        });
+      } else {
+        showWarningSnackbar({
+          msg: response.data?.message || "Erro desconhecido.",
+          severity: "error",
+        });
+      }
+
+      onClose();
+    } catch (error) {
+      const errorMsg =
+        error.response?.data || "Erro desconhecido. Tente novamente.";
+
+      showWarningSnackbar({
+        msg: errorMsg,
+        severity: "error",
+      });
+    }
   };
 
   const handleSubmit = async () => {
@@ -37,17 +71,7 @@ export default function OperationsModal({
         // Adicione a lógica de depósito aqui
         break;
       case Operations.SACAR:
-        const response = await axios.post("/api/transactions/withdraw", {
-          userId: user?.id,
-          amount: getTotalValue(),
-          notes: notesValue,
-        });
-
-        if (response.status === 200) {
-          console.log("Saque realizado com sucesso!");
-        } else {
-          console.error("Erro ao realizar saque!");
-        }
+        handleWithdraw();
 
         break;
       case Operations.TRANSFERIR:
@@ -95,8 +119,7 @@ export default function OperationsModal({
           <Button
             sx={{ ...ModalStyles.button, ...ModalStyles.buttonConfirm }}
             onClick={() => {
-              // Adicione a lógica de confirmação aqui
-              onClose();
+              handleSubmit();
             }}
           >
             Confirmar

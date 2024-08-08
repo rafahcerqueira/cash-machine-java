@@ -75,16 +75,22 @@ public class TransactionService extends Subject {
         try {
             canDispenseAmount(amount, requestedNotes);
         } catch (MyRuntimeException e) {
-            // Adicionar a lista de notas disponíveis ao erro
             List<NoteSlot> availableNotes = noteSlotRepository.findAll();
-            StringBuilder availableNotesMessage = new StringBuilder("\n\n\b Notas disponíveis no caixa:\n");
-            for (NoteSlot noteSlot : availableNotes) {
-                availableNotesMessage.append(noteSlot.getValue())
-                        .append(" \b ")
-                        .append(noteSlot.getQuantity())
-                        .append("\n");
+            StringBuilder availableNotesMessage = new StringBuilder("\nNotas disponíveis:\n");
+            
+            for (int i = 0; i < availableNotes.size(); i++) {
+                NoteSlot noteSlot = availableNotes.get(i);
+                availableNotesMessage.append("R$").append(noteSlot.getValue())
+                                     .append(" (").append(noteSlot.getQuantity())
+                                     .append(")");
+        
+                // Adiciona um separador após todos os itens, exceto o último
+                if (i < availableNotes.size() - 1) {
+                    availableNotesMessage.append(" - ");
+                }
             }
-            throw new MyRuntimeException(e.getMessage() + ". " + availableNotesMessage.toString());
+
+            throw new MyRuntimeException(e.getMessage() + availableNotesMessage.toString());
         }
         
 
@@ -174,7 +180,7 @@ public class TransactionService extends Subject {
         }
 
         if (remainingAmount.compareTo(BigDecimal.ZERO) > 0) {
-            throw new MyRuntimeException("Não é possível sacar o valor solicitado com as notas disponíveis no caixa!");
+            throw new MyRuntimeException("Saque inválido. ");
         }
     }
 
