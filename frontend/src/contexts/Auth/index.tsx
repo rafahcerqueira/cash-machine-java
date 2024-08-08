@@ -84,9 +84,18 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         type,
         level,
       });
-
+  
       if (response.status === 201) {
-        setErrorMessage(null);
+        const user = response.data;
+        if (user) {
+          await loginIn({
+            accountNumber: user.account.accountNumber,
+            name: user.name,
+            password,
+          });
+  
+          setErrorMessage(null);
+        }
       } else {
         setErrorMessage(response.data.message || "Registration failed");
       }
@@ -95,6 +104,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       setErrorMessage("Erro ao realizar cadastro");
     }
   };
+  
 
   const resetPassword = async ({
     account,

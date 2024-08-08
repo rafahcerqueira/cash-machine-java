@@ -64,7 +64,6 @@ export default function Register() {
           msg: "Cadastro realizado com sucesso!",
         });
         reset();
-        navigate("/");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
