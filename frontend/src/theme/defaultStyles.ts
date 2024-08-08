@@ -1,3 +1,4 @@
+import { sub } from "date-fns";
 import { theme } from ".";
 
 export const DatagridStyles = {
@@ -112,12 +113,26 @@ export const ModalStyles = {
   },
 
   header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
     margin: "0",
     color: theme.colors.white,
     fontSize: "1.5rem",
     fontWeight: "bold",
     padding: "1rem",
     borderBottom: `1px solid ${theme.colors.p1_50}`,
+  },
+
+  title: {
+    color: "white",
+    fontSize: "1.5rem",
+    fontWeight: "bold",
+  },
+
+  subtitle: {
+    color: theme.colors.white,
+    fontSize: "1.2rem",
   },
 
   body: {

@@ -24,6 +24,7 @@ export default function OperationsModal({
   onClose,
 }: OperationsModalProps) {
   const [notesValue, setNotesValue] = useState<Record<number, number>>({});
+  const [isDollar, setIsDollar] = useState(false);
   const { user } = useAuth();
   const showWarningSnackbar = useNotification();
 
@@ -65,14 +66,46 @@ export default function OperationsModal({
     }
   };
 
+  const handleDeposit = async () => {
+    try {
+      const response = await axios.post("/api/transactions/deposit", {
+        userId: user?.id,
+        amount: getTotalValue(),
+        notes: notesValue,
+        isDollar: isDollar,
+      });
+
+      if (response.status === 200) {
+        showWarningSnackbar({
+          msg: "Depósito realizado com sucesso!",
+          severity: "success",
+        });
+      } else {
+        showWarningSnackbar({
+          msg: response.data?.message || "Erro desconhecido.",
+          severity: "error",
+        });
+      }
+
+      onClose();
+    } catch (error) {
+      const errorMsg =
+        error.response?.data || "Erro desconhecido. Tente novamente.";
+
+      showWarningSnackbar({
+        msg: errorMsg,
+        severity: "error",
+      });
+    }
+  };
+
   const handleSubmit = async () => {
     switch (operation) {
       case Operations.DEPOSITAR:
-        // Adicione a lógica de depósito aqui
+        handleDeposit();
         break;
       case Operations.SACAR:
         handleWithdraw();
-
         break;
       case Operations.TRANSFERIR:
         // Adicione a lógica de transferência aqui
@@ -95,19 +128,31 @@ export default function OperationsModal({
       }}
     >
       <Box sx={ModalStyles.container}>
-        <Typography id="modal-title" sx={ModalStyles.header}>
-          {operation}
-        </Typography>
+        <Box sx={ModalStyles.header}>
+          <Typography id="modal-title" sx={ModalStyles.title}>
+            {operation}
+          </Typography>
+
+          {(operation === Operations.SACAR ||
+            operation === Operations.DEPOSITAR) && (
+            <Typography sx={ModalStyles.subtitle}>
+              Total: R${" "}
+              {getTotalValue().toLocaleString("pt-br", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </Typography>
+          )}
+        </Box>
         <Box sx={ModalStyles.body}>
-          {operation === "Sacar" && (
+          {(operation === Operations.SACAR ||
+            operation === Operations.DEPOSITAR) && (
             <NotesManager
               value={notesValue}
               setValue={setNotesValue}
               listNotes={ListNotes}
             />
           )}
-
-          {/* Adicione outros conteúdos baseados na operação aqui */}
         </Box>
         <Box sx={ModalStyles.footer}>
           <Button
@@ -118,9 +163,7 @@ export default function OperationsModal({
           </Button>
           <Button
             sx={{ ...ModalStyles.button, ...ModalStyles.buttonConfirm }}
-            onClick={() => {
-              handleSubmit();
-            }}
+            onClick={handleSubmit}
           >
             Confirmar
           </Button>
