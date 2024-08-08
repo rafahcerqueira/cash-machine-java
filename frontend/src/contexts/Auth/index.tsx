@@ -1,5 +1,6 @@
 import axios from "@/api/axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Cookies from "universal-cookie";
 
 type Props = {
   children: React.ReactNode;
@@ -20,48 +21,24 @@ type AuthProviderData = {
   errorMessage: string | null;
 };
 
-type UserProps = {
-  id: number;
-  name: string;
-  password: string;
-  account: AccountProps;
-};
-
-type AccountProps = {
-  id: number;
-  accountNumber: string;
-  type: string;
-  level: string;
-  balance: number;
-};
-
-type LoginInProps = {
-  accountNumber: string;
-  name: string;
-  password: string;
-};
-
-type RegisterProps = {
-  name: string;
-  password: string;
-  type: string;
-  level: string;
-};
-
-type ResetPasswordProps = {
-  account: string;
-  password: string;
-  confirmPassword: string;
-};
-
 const AuthContext = React.createContext<AuthProviderData>(
   {} as AuthProviderData
 );
+
+const cookies = new Cookies();
 
 const AuthProvider: React.FC<Props> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<UserProps | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const userCookie = cookies.get("user");
+    if (userCookie) {
+      setUser(userCookie);
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   const loginIn = async ({
     accountNumber,
@@ -80,13 +57,16 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         setUser(userData);
         setIsAuthenticated(true);
         setErrorMessage(null);
+
+        delete userData.password;
+        cookies.set("user", userData, { path: "/" });
       } else {
         setErrorMessage(response.data.message || "Login failed");
         setIsAuthenticated(false);
       }
     } catch (error) {
       console.error("Login error:", error);
-      setErrorMessage("An error occurred during login");
+      setErrorMessage("Erro ao fazer login");
       setIsAuthenticated(false);
     }
   };
@@ -130,6 +110,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   const logout = (): void => {
     setUser(null);
     setIsAuthenticated(false);
+    cookies.remove("user");
   };
 
   return (

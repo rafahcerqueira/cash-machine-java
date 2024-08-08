@@ -18,6 +18,7 @@ import InfoLogin from "@/components/globals/Layout/InfoLogin";
 import InputLogin from "@/components/globals/Forms/InputLogin";
 import InputPassword from "@/components/globals/Forms/InputPassword";
 import ButtonDefault from "@/components/globals/Forms/ButtonDefault";
+import { theme } from "@/theme";
 
 type Inputs = z.infer<typeof LoginSchema>;
 
@@ -114,7 +115,7 @@ export default function Login() {
               styles={{ width: "100%", height: "3rem", fontSize: "1rem" }}
             />
             {errorMessage && (
-              <div style={{ color: "red", marginTop: "1rem" }}>
+              <div style={{ color: theme.colors.p4, marginTop: "1rem" }}>
                 {errorMessage}
               </div>
             )}
