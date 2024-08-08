@@ -66,14 +66,27 @@ public class TransactionService extends Subject {
 
         Account account = user.getAccount();
 
+
         if (account.getBalance().compareTo(amount) < 0) {
-            throw new MyRuntimeException("Insufficient balance");
+            throw new MyRuntimeException("Saldo insuficiente!");
         }
 
         // Verificar disponibilidade de notas
-        if (!canDispenseAmount(amount, requestedNotes)) {
-            throw new MyRuntimeException("Cannot dispense the requested amount with available notes");
+        try {
+            canDispenseAmount(amount, requestedNotes);
+        } catch (MyRuntimeException e) {
+            // Adicionar a lista de notas disponíveis ao erro
+            List<NoteSlot> availableNotes = noteSlotRepository.findAll();
+            StringBuilder availableNotesMessage = new StringBuilder("\n\n\b Notas disponíveis no caixa:\n");
+            for (NoteSlot noteSlot : availableNotes) {
+                availableNotesMessage.append(noteSlot.getValue())
+                        .append(" \b ")
+                        .append(noteSlot.getQuantity())
+                        .append("\n");
+            }
+            throw new MyRuntimeException(e.getMessage() + ". " + availableNotesMessage.toString());
         }
+        
 
         // Realizar o saque
         account.setBalance(account.getBalance().subtract(amount));
@@ -102,7 +115,7 @@ public class TransactionService extends Subject {
         Account targetAccount = targetUser.getAccount();
 
         if (sourceAccount.getBalance().compareTo(amount) < 0) {
-            throw new MyRuntimeException("Insufficient balance");
+            throw new MyRuntimeException("Saldo insuficiente");
         }
 
         sourceAccount.setBalance(sourceAccount.getBalance().subtract(amount));
@@ -127,7 +140,7 @@ public class TransactionService extends Subject {
         return transactionRepository.findByUserId(userId);
     }
 
-    private boolean canDispenseAmount(BigDecimal amount, Map<Integer, Integer> requestedNotes) {
+    private void canDispenseAmount(BigDecimal amount, Map<Integer, Integer> requestedNotes) {
         List<NoteSlot> noteSlots = noteSlotRepository.findAll();
         BigDecimal remainingAmount = amount;
 
@@ -150,15 +163,19 @@ public class TransactionService extends Subject {
                     remainingAmount = remainingAmount.subtract(BigDecimal.valueOf(noteValue).multiply(BigDecimal.valueOf(availableQuantity)));
                 } else {
                     remainingAmount = remainingAmount.subtract(BigDecimal.valueOf(noteValue).multiply(BigDecimal.valueOf(requestedQuantity)));
+                }
+
+                if (remainingAmount.compareTo(BigDecimal.ZERO) <= 0) {
                     break;
                 }
             } else {
-                // Se a nota não está disponível no estoque
                 throw new MyRuntimeException("Note of value " + noteValue + " is not available in the ATM.");
             }
         }
 
-        return remainingAmount.compareTo(BigDecimal.ZERO) == 0;
+        if (remainingAmount.compareTo(BigDecimal.ZERO) > 0) {
+            throw new MyRuntimeException("Não é possível sacar o valor solicitado com as notas disponíveis no caixa!");
+        }
     }
 
     private void updateNoteSlotsForDeposit(Map<Integer, Integer> requestedNotes) {

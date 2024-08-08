@@ -9,6 +9,16 @@
       "projectName": "cash-machine",
       "args": "",
       "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-CashMachineApplication<api>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "cashmachine.api.CashMachineApplication",
+      "projectName": "api",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }
