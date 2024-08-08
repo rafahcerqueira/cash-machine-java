@@ -71,7 +71,7 @@ export const WrapperForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.gaps.default};
-  gap: 2rem;
+  gap: 1.2rem;
 `;
 
 export const WrapperButton = styled.div`

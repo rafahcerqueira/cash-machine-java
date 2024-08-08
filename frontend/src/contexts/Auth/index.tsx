@@ -78,15 +78,21 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     level,
   }: RegisterProps): Promise<void> => {
     try {
-      await axios.post("/api/auth/register", {
+      const response = await axios.post("/api/auth/register", {
         name,
         password,
         type,
         level,
       });
+
+      if (response.status === 201) {
+        setErrorMessage(null);
+      } else {
+        setErrorMessage(response.data.message || "Registration failed");
+      }
     } catch (error) {
       console.error("Registration error:", error);
-      throw error;
+      setErrorMessage("Erro ao realizar cadastro");
     }
   };
 

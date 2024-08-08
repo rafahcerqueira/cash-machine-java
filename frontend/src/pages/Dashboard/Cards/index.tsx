@@ -1,9 +1,19 @@
+import axios from "@/api/axios";
 import { CardWrapper, CardContainer } from "./styles";
 import { useAuth } from "@/hooks";
 import { theme } from "@/theme";
+import { useEffect } from "react";
 
 export default function Cards() {
   const { user } = useAuth();
+
+  const getUser = async () => {
+    var response = await axios.get("/api/user/" + user?.id);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <CardWrapper>

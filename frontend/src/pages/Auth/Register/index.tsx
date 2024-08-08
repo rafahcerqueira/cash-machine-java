@@ -12,7 +12,7 @@ import {
 import z from "zod";
 import { useAuth } from "@/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { RegisterSchema } from "@/utils/registerSchema";
 import { AccountLevel } from "@/enums/AccountLevel";
@@ -22,38 +22,50 @@ import InputLogin from "@/components/globals/Forms/InputLogin";
 import InputPassword from "@/components/globals/Forms/InputPassword";
 import ButtonDefault from "@/components/globals/Forms/ButtonDefault";
 import SelectDefault from "@/components/globals/Forms/SelectDefault";
+import { useNotification } from "@/hooks/Notification/useNotification";
 
 type Inputs = z.infer<typeof RegisterSchema>;
 
 export default function Register() {
-  const { register: authRegister } = useAuth();
+  const { register: authRegister, errorMessage } = useAuth();
   const navigate = useNavigate();
+  const notification = useNotification();
 
   const {
-    register,
+    control,
     handleSubmit,
     reset,
+    register,
     formState: { errors },
-    setValue,
-    getValues,
   } = useForm<Inputs>({
     mode: "all",
     criteriaMode: "all",
     resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      accountType: AccountType.CORRENTE,
+      accountLevel: AccountLevel.BRONZE,
+    },
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      console.log(data);
-
       await authRegister({
         name: data.name,
         password: data.password,
         type: data.accountType,
         level: data.accountLevel,
       });
-      reset();
-      navigate("/");
+
+      if (errorMessage) {
+        reset();
+      } else {
+        notification({
+          severity: "success",
+          msg: "Cadastro realizado com sucesso!",
+        });
+        reset();
+        navigate("/");
+      }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         console.error("Dados inválidos.");
@@ -84,29 +96,39 @@ export default function Register() {
             />
 
             <WrapperSelect>
-              <SelectDefault
-                state={getValues("accountType")}
-                messageError={errors.accountType?.message}
-                label="Tipo de Conta"
-                placeholder="Selecione o tipo de conta"
-                register={register}
-                registerName="accountType"
-                options={Object.keys(AccountType).map((key) => ({
-                  value: AccountType[key as keyof typeof AccountType],
-                  label: key,
-                }))}
+              <Controller
+                name="accountType"
+                control={control}
+                render={({ field }) => (
+                  <SelectDefault
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    messageError={errors.accountType?.message}
+                    label="Tipo de Conta"
+                    placeholder="Selecione o tipo de conta"
+                    options={Object.keys(AccountType).map((key) => ({
+                      value: AccountType[key as keyof typeof AccountType],
+                      label: key,
+                    }))}
+                  />
+                )}
               />
-              <SelectDefault
-                state={getValues("accountLevel")}
-                messageError={errors.accountLevel?.message}
-                label="Nível de Conta"
-                placeholder="Selecione o nível de conta"
-                register={register}
-                registerName="accountLevel"
-                options={Object.keys(AccountLevel).map((key) => ({
-                  value: AccountLevel[key as keyof typeof AccountLevel],
-                  label: key,
-                }))}
+              <Controller
+                name="accountLevel"
+                control={control}
+                render={({ field }) => (
+                  <SelectDefault
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    messageError={errors.accountLevel?.message}
+                    label="Nível de Conta"
+                    placeholder="Selecione o nível de conta"
+                    options={Object.keys(AccountLevel).map((key) => ({
+                      value: AccountLevel[key as keyof typeof AccountLevel],
+                      label: key,
+                    }))}
+                  />
+                )}
               />
             </WrapperSelect>
 
