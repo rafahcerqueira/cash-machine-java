@@ -6,4 +6,5 @@ import cashmachine.api.model.Account;
 
 public interface AccountRepository extends JpaRepository<Account,Long> { 
     Account findByAccountNumber(String account);
+    Account findByUserId(Long id);
 }

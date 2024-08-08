@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import cashmachine.api.model.Account;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

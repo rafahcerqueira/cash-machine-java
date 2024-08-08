@@ -17,13 +17,13 @@ public class UserMapper implements GenericMapper<UserDto, User> {
         user.setAccount(dto.getAccount());
         return user;
     }
-
+    
     @Override
     public UserDto toDto(User user) {
         UserDto dto = new UserDto();
         dto.setId(user.getId());
         dto.setName(user.getName());
-        dto.setAccount(dto.getAccount());
+        dto.setAccount(user.getAccount());
         return dto;
     }
 }

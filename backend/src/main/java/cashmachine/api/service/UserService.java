@@ -5,6 +5,7 @@ import cashmachine.api.dto.UserDto;
 import cashmachine.api.exception.MyRuntimeException;
 import cashmachine.api.mapper.UserMapper;
 import cashmachine.api.model.*;
+import cashmachine.api.repository.AccountRepository;
 import cashmachine.api.repository.UserRepository;
 
 import org.springframework.stereotype.Service;
@@ -16,12 +17,22 @@ import java.util.*;
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
+    private AccountRepository accountRepository;
     private UserMapper userMapper;
 
     @Transactional
     public UserDto getUser(Long id) {
         Optional<User> userOpt = userRepository.findById(id);
         User user = userOpt.orElseThrow(()->new MyRuntimeException("User with id : "+ id +" not found"));
+
+        Account account = accountRepository.findByUserId(id);
+
+        if(account == null){
+            throw new MyRuntimeException("Account not found");
+        }
+
+        user.setAccount(account);
+
         return userMapper.toDto(user);
     }
 
