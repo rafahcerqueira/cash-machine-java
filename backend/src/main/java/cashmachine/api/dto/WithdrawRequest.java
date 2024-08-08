@@ -13,5 +13,4 @@ public class WithdrawRequest {
     private Long userId;
     private BigDecimal amount;
     private Map<Integer, Integer> notes;
-    private Boolean isDollar;
 }

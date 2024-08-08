@@ -31,7 +31,7 @@ public class TransactionController {
     @PostMapping("/withdraw")
     public ResponseEntity<String> withdraw(@RequestBody WithdrawRequest withdrawRequest) {
         try {
-            transactionFacade.withdraw(withdrawRequest.getUserId(), withdrawRequest.getAmount(), withdrawRequest.getNotes(), withdrawRequest.getIsDollar());
+            transactionFacade.withdraw(withdrawRequest.getUserId(), withdrawRequest.getAmount(), withdrawRequest.getNotes());
             return new ResponseEntity<>("Withdraw successful", HttpStatus.OK);
         } catch (MyRuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

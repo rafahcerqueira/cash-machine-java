@@ -60,15 +60,11 @@ public class TransactionService extends Subject {
     }
 
     @Transactional
-    public void withdraw(Long userId, BigDecimal amount, Map<Integer, Integer> requestedNotes, boolean isDollar) {
+    public void withdraw(Long userId, BigDecimal amount, Map<Integer, Integer> requestedNotes) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new MyRuntimeException("User not found"));
 
         Account account = user.getAccount();
-
-        if (isDollar) {
-            amount = BigDecimal.valueOf(moneyConverter.convert(amount.doubleValue()));
-        }
 
         if (account.getBalance().compareTo(amount) < 0) {
             throw new MyRuntimeException("Insufficient balance");

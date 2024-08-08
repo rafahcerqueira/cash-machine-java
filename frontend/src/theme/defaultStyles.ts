@@ -94,6 +94,65 @@ export const DatagridLightStyles = {
   },
 };
 
+export const ModalStyles = {
+  container: {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    bgcolor: theme.colors.backgroundPrimary,
+    border: `2px solid ${theme.colors.p1_50}`,
+    boxShadow: theme.boxShadow.card,
+    p: 4,
+    borderRadius: "0.5rem",
+  },
+
+  header: {
+    margin: "0",
+    color: theme.colors.white,
+    fontSize: "1.5rem",
+    fontWeight: "bold",
+    padding: "1rem",
+    borderBottom: `1px solid ${theme.colors.p1_50}`,
+  },
+
+  body: {
+    padding: "1rem",
+    color: theme.colors.p1_75,
+    fontSize: "1rem",
+  },
+
+  footer: {
+    marginTop: "1rem",
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: "1rem",
+  },
+
+  button: {
+    padding: "0.5rem 1rem",
+    borderRadius: "0.25rem",
+    boxShadow: theme.boxShadow.button,
+    fontSize: "1rem",
+  },
+
+  buttonCancel: {
+    backgroundColor: theme.colors.p4,
+    color: theme.colors.white,
+    "&:hover": {
+      backgroundColor: theme.colors.p4,
+    },
+  },
+
+  buttonConfirm: {
+    backgroundColor: theme.colors.primary,
+    color: theme.colors.white,
+    "&:hover": {
+      backgroundColor: theme.colors.primary,
+    },
+  },
+};
+
 export const TextFieldStyles = {
   "& .MuiTextField": {
     color: "red !important",

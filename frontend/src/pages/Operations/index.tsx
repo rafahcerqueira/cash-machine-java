@@ -4,10 +4,29 @@ import { Wrapper, Container } from "./styles";
 import { theme } from "@/theme";
 
 import HeaderTitle from "@/components/globals/Layout/HeaderTitle";
+import { useNavigate } from "react-router-dom";
+import OperationsModal from "@/components/globals/Modal/OperationsModal";
+import { useState } from "react";
+
+const buttonStyles = {
+  width: "24rem",
+  height: "4rem",
+  color: theme.colors.white,
+  fontSize: theme.typography.fontSizes.button_add,
+};
 
 export default function Operations() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentOperation, setCurrentOperation] = useState<string>("");
+  const navigate = useNavigate();
+
   const handleOpenModal = (operation: OperationsEnum) => {
-    console.log(operation);
+    setCurrentOperation(operation);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -20,12 +39,7 @@ export default function Operations() {
           type="button"
           text={OperationsEnum.DEPOSITAR}
           onClick={() => handleOpenModal(OperationsEnum.DEPOSITAR)}
-          styles={{
-            width: "24rem",
-            height: "4rem",
-            color: theme.colors.white,
-            fontSize: theme.typography.fontSizes.button_add,
-          }}
+          styles={buttonStyles}
         />
 
         <ButtonDefault
@@ -34,12 +48,7 @@ export default function Operations() {
           type="button"
           text={OperationsEnum.SACAR}
           onClick={() => handleOpenModal(OperationsEnum.SACAR)}
-          styles={{
-            width: "24rem",
-            height: "4rem",
-            color: theme.colors.white,
-            fontSize: theme.typography.fontSizes.button_add,
-          }}
+          styles={buttonStyles}
         />
 
         <ButtonDefault
@@ -48,12 +57,7 @@ export default function Operations() {
           type="button"
           text={OperationsEnum.TRANSFERIR}
           onClick={() => handleOpenModal(OperationsEnum.TRANSFERIR)}
-          styles={{
-            width: "24rem",
-            height: "4rem",
-            color: theme.colors.white,
-            fontSize: theme.typography.fontSizes.button_add,
-          }}
+          styles={buttonStyles}
         />
 
         <ButtonDefault
@@ -61,13 +65,14 @@ export default function Operations() {
           color="secondary"
           type="button"
           text={OperationsEnum.EXTRATO}
-          onClick={() => handleOpenModal(OperationsEnum.EXTRATO)}
-          styles={{
-            width: "24rem",
-            height: "4rem",
-            color: theme.colors.white,
-            fontSize: theme.typography.fontSizes.button_add,
-          }}
+          onClick={() => navigate("/extrato")}
+          styles={buttonStyles}
+        />
+
+        <OperationsModal
+          open={modalOpen}
+          operation={currentOperation}
+          onClose={handleCloseModal}
         />
       </Container>
     </Wrapper>

@@ -17,8 +17,8 @@ public class TransactionFacade {
         transactionService.deposit(userId, amount, requestedNotes, isDollar);
     }
 
-    public void withdraw(Long userId, BigDecimal amount, Map<Integer, Integer> requestedNotes, boolean isDollar) {
-        transactionService.withdraw(userId, amount, requestedNotes, isDollar);
+    public void withdraw(Long userId, BigDecimal amount, Map<Integer, Integer> requestedNotes) {
+        transactionService.withdraw(userId, amount, requestedNotes);
     }
 
     public void transfer(Long sourceUserId, Long targetUserId, BigDecimal amount) {
