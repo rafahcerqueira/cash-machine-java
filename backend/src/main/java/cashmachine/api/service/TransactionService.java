@@ -129,18 +129,15 @@ public class TransactionService extends Subject {
         User userRecipient = userRepository.findById(accountRecipient.getUser().getId())
                 .orElseThrow(() -> new MyRuntimeException("Usuário de destino não encontrado"));
 
-        Account sourceAccount = userOrigin.getAccount();
-        Account targetAccount = userRecipient.getAccount();
-
-        if (sourceAccount.getBalance().compareTo(amount) < 0) {
+        if (accountOrigin.getBalance().compareTo(amount) < 0) {
             throw new MyRuntimeException("Saldo insuficiente");
         }
 
-        sourceAccount.setBalance(sourceAccount.getBalance().subtract(amount));
-        targetAccount.setBalance(targetAccount.getBalance().add(amount));
+        accountOrigin.setBalance(accountOrigin.getBalance().subtract(amount));
+        accountRecipient.setBalance(accountRecipient.getBalance().add(amount));
 
-        accountRepository.save(sourceAccount);
-        accountRepository.save(targetAccount);
+        accountRepository.save(accountOrigin);
+        accountRepository.save(accountRecipient);
 
         // Registrar transações
         Transaction transaction = new Transaction(userOrigin.getId(), "TRANSFER", amount, LocalDateTime.now());

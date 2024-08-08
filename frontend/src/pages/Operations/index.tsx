@@ -9,10 +9,19 @@ import OperationsModal from "@/components/globals/Modal/OperationsModal";
 import { useState } from "react";
 
 const buttonStyles = {
-  width: "24rem",
-  height: "4rem",
+  width: "100%",
+  height: "5rem",
   color: theme.colors.white,
   fontSize: theme.typography.fontSizes.button_add,
+  background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
+  borderRadius: "8px",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+  transition: "background 0.3s, transform 0.4s",
+  cursor: "pointer",
+  "&:hover": {
+    background: `linear-gradient(135deg, ${theme.colors.secondary}, ${theme.colors.primary})`,
+    transform: "scale(1.02)",
+  },
 };
 
 export default function Operations() {

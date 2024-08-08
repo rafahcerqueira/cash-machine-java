@@ -134,7 +134,7 @@ export default function OperationsModal({
       const response = await axios.post("/api/transactions/transfer", {
         accountNumberOrigin: user?.account.accountNumber,
         accountNumberRecipient: getValues("accountNumberRecipient"),
-        amount: getTotalValue(),
+        amount: Number(getValues("amount")),
       });
 
       if (response.status === 200) {
@@ -164,13 +164,16 @@ export default function OperationsModal({
   const handleSubmit = async () => {
     switch (operation) {
       case Operations.DEPOSITAR:
-        handleDeposit();
+        if (getTotalValue() > 0) handleDeposit();
+        else showWarningSnackbar({ msg: "Valor inválido.", severity: "error" });
         break;
       case Operations.SACAR:
-        handleWithdraw();
+        if (getTotalValue() > 0) handleWithdraw();
+        else showWarningSnackbar({ msg: "Valor inválido.", severity: "error" });
         break;
       case Operations.TRANSFERIR:
-        handleTransfer();
+        if (getValues("amount") > 0) handleTransfer();
+        else showWarningSnackbar({ msg: "Valor inválido.", severity: "error" });
         break;
       default:
         break;
