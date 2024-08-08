@@ -4,6 +4,12 @@ import { useAuth } from "@/hooks";
 import { theme } from "@/theme";
 import { useEffect, useState } from "react";
 
+const levelColors = {
+  OURO: "#FFD700",
+  PRATA: "#C0C0C0",
+  BRONZE: "#CD7F32",
+} as const;
+
 export default function Cards() {
   const { user } = useAuth();
   const [userResponse, setUserResponse] = useState<any>(null);
@@ -15,6 +21,10 @@ export default function Cards() {
     } catch (error) {
       console.error("Failed to fetch user data:", error);
     }
+  };
+
+  const getLevelColor = (level: string | undefined) => {
+    return levelColors[level as keyof typeof levelColors] || theme.colors.p1_50;
   };
 
   useEffect(() => {
@@ -34,7 +44,11 @@ export default function Cards() {
       <CardContainer>
         <h2>Saldo</h2>
         <p style={{ color: theme.colors.p2 }}>
-          R$ {currentUser?.account?.balance}
+          R${" "}
+          {currentUser?.account?.balance.toLocaleString("pt-br", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
         </p>
       </CardContainer>
       <CardContainer>
@@ -45,7 +59,7 @@ export default function Cards() {
       </CardContainer>
       <CardContainer>
         <h2>Level</h2>
-        <p style={{ color: theme.colors.primary }}>
+        <p style={{ color: getLevelColor(currentUser?.account?.level) }}>
           {currentUser?.account?.level}
         </p>
       </CardContainer>

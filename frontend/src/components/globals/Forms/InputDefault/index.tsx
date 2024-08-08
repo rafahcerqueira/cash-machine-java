@@ -1,16 +1,10 @@
-import {
-  FieldError,
-  FieldErrorsImpl,
-  Merge,
-  UseFormRegister,
-} from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 import { Wrapper, WrapperTextField, WrapperError } from "./styles";
-import { TextFieldStyles } from "@/theme/defaultStyles";
 
 type InputDefaultProps = {
   label: string;
   placeholder: string;
-  messageError?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  messageError?: string;
   register: UseFormRegister<any>;
   registerName: string;
   type: string;
@@ -41,7 +35,6 @@ export default function InputDefault({
         {...register(registerName)}
         disabled={disabled}
         InputLabelProps={type === "date" ? { shrink: true } : {}}
-        sx={TextFieldStyles}
       />
       <WrapperError>{messageError}</WrapperError>
     </Wrapper>

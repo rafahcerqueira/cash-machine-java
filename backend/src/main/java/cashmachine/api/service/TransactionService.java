@@ -116,18 +116,18 @@ public class TransactionService extends Subject {
         Account accountRecipient = accountRepository.findByAccountNumber(accountNumberRecipient);
 
         if (accountOrigin == null) {
-            throw new MyRuntimeException("Origin account not found");
+            throw new MyRuntimeException("Conta de origem não encontrada");
         }
 
         if (accountRecipient == null) {
-            throw new MyRuntimeException("Recipient account not found");
+            throw new MyRuntimeException("Conta de destino não encontrada");
         }
 
         User userOrigin = userRepository.findById(accountOrigin.getUser().getId())
-                .orElseThrow(() -> new MyRuntimeException("Origin user not found"));
+                .orElseThrow(() -> new MyRuntimeException("Usuário de origem não encontrado"));
 
         User userRecipient = userRepository.findById(accountRecipient.getUser().getId())
-                .orElseThrow(() -> new MyRuntimeException("Recipient user not found"));
+                .orElseThrow(() -> new MyRuntimeException("Usuário de destino não encontrado"));
 
         Account sourceAccount = userOrigin.getAccount();
         Account targetAccount = userRecipient.getAccount();

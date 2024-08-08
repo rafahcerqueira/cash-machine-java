@@ -38,7 +38,7 @@ export const LogoutButton = styled.button`
   justify-content: center;
   gap: ${theme.spacing.gaps.wrapper};
   border: none;
-  border-top: 1px solid ${theme.colors.primary};
+  border-top: 1px solid ${theme.colors.backgroundPrimary};
   cursor: pointer;
   color: ${theme.colors.white};
   font-size: ${theme.typography.fontSizes.sidebar};

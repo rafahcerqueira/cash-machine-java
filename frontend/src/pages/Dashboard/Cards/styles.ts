@@ -28,8 +28,12 @@ export const CardContainer = styled.div`
   color: ${theme.colors.white};
 
   h2 {
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: 500;
     margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.4rem;
   }
 `;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -10,12 +10,20 @@ import axios from "@/api/axios";
 import { useAuth } from "@/hooks";
 import { useNotification } from "@/hooks/Notification/useNotification";
 import { Checkbox, FormControlLabel } from "@mui/material";
+import { TransferSchema } from "@/utils/transferSchema";
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import InputLogin from "../../Forms/InputLogin";
+import InputDefault from "../../Forms/InputDefault";
 
 type OperationsModalProps = {
   open: boolean;
   operation: string;
   onClose: () => void;
 };
+
+type Inputs = z.infer<typeof TransferSchema>;
 
 const ListNotes = [2, 5, 10, 20, 50, 100, 200];
 
@@ -29,10 +37,31 @@ export default function OperationsModal({
   const { user } = useAuth();
   const showWarningSnackbar = useNotification();
 
+  const {
+    register,
+    reset,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<Inputs>({
+    mode: "all",
+    criteriaMode: "all",
+    resolver: zodResolver(TransferSchema),
+  });
+
   const getTotalValue = () => {
     return ListNotes.reduce((total, note) => {
       return total + (notesValue[note] || 0) * note;
     }, 0);
+  };
+
+  const onChangeAccountNumber = (value: string) => {
+    const clearAccountNumber = value.replace(/\D+/g, "");
+    const maskedAccountNumber = clearAccountNumber.replace(
+      /(\d{7})(\d{0,7})/,
+      "$1-$2"
+    );
+    setValue("accountNumberRecipient", maskedAccountNumber);
   };
 
   const handleWithdraw = async () => {
@@ -100,6 +129,38 @@ export default function OperationsModal({
     }
   };
 
+  const handleTransfer = async () => {
+    try {
+      const response = await axios.post("/api/transactions/transfer", {
+        accountNumberOrigin: user?.account.accountNumber,
+        accountNumberRecipient: getValues("accountNumberRecipient"),
+        amount: getTotalValue(),
+      });
+
+      if (response.status === 200) {
+        showWarningSnackbar({
+          msg: "Transferência realizada com sucesso!",
+          severity: "success",
+        });
+      } else {
+        showWarningSnackbar({
+          msg: response.data?.message || "Erro desconhecido.",
+          severity: "error",
+        });
+      }
+
+      onClose();
+    } catch (error) {
+      const errorMsg =
+        error.response?.data || "Erro desconhecido. Tente novamente.";
+
+      showWarningSnackbar({
+        msg: errorMsg,
+        severity: "error",
+      });
+    }
+  };
+
   const handleSubmit = async () => {
     switch (operation) {
       case Operations.DEPOSITAR:
@@ -109,12 +170,18 @@ export default function OperationsModal({
         handleWithdraw();
         break;
       case Operations.TRANSFERIR:
-        // Adicione a lógica de transferência aqui
+        handleTransfer();
         break;
       default:
         break;
     }
   };
+
+  useEffect(() => {
+    reset();
+    setNotesValue({});
+    setIsDollar(false);
+  }, [open]);
 
   return (
     <Modal
@@ -170,6 +237,34 @@ export default function OperationsModal({
                 value={notesValue}
                 setValue={setNotesValue}
                 listNotes={ListNotes}
+              />
+            </Box>
+          )}
+          {operation === Operations.TRANSFERIR && (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.4rem",
+              }}
+            >
+              <InputLogin
+                label="Conta de destino"
+                placeholder="Digite a conta de destino"
+                messageError={errors.accountNumberRecipient?.message}
+                register={register}
+                registerName="accountNumberRecipient"
+                type="text"
+                maxLength={9}
+                onMaskChange={onChangeAccountNumber}
+              />
+              <InputDefault
+                label="Valor"
+                placeholder="Digite o valor"
+                messageError={errors.amount?.message}
+                register={register}
+                registerName="amount"
+                type="number"
               />
             </Box>
           )}

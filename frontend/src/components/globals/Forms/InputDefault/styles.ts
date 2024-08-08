@@ -6,7 +6,7 @@ import { TextField } from "@mui/material";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 47%;
+  width: 100%;
 `;
 
 export const WrapperTextField = styled(TextField)`

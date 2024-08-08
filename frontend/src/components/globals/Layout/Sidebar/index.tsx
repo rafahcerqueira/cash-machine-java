@@ -17,14 +17,14 @@ const SidebarData = [
     icon: "home",
   },
   {
-    title: "Extrato",
-    path: "/extrato",
-    icon: "account_balance_wallet",
-  },
-  {
     title: "Operações",
     path: "/operacoes",
     icon: "apps",
+  },
+  {
+    title: "Extrato",
+    path: "/extrato",
+    icon: "account_balance_wallet",
   },
 ];
 
