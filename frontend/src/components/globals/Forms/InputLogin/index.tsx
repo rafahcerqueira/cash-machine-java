@@ -31,7 +31,7 @@ export default function InputLogin({
         label={label}
         placeholder={placeholder}
         variant="standard"
-        color="secondary"
+        color="info"
         type={type}
         inputProps={{ maxLength: maxLength || 50 }}
         {...register(registerName)}

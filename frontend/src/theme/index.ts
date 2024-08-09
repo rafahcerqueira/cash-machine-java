@@ -54,7 +54,7 @@ export const themeMUI = createTheme(
       MuiInput: {
         styleOverrides: {
           root: {
-            color: theme.colors.p1,
+            color: theme.colors.white,
             fontSize: theme.typography.fontSizes.input,
             fontWeight: theme.typography.fontWeights.medium,
           },

@@ -46,7 +46,7 @@ export default function InputPassword({
         <Input
           id="standard-adornment-password"
           type={showPassword ? "text" : "password"}
-          color="secondary"
+          color="info"
           placeholder={placeholder}
           {...register(registerName)}
           inputProps={{ maxLength: maxLength || 50 }}
