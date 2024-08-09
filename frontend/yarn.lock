@@ -1300,7 +1300,7 @@ camelize@^1.0.0:
     "@mui/material" "^5.14.20"
     "@mui/x-charts" "^6.19.1"
     axios "^1.7.2"
-    cash-machine "file:../../../Users/rafah/AppData/Local/Yarn/Cache/v6/npm-cash-machine-0.0.0-f72f406b-8597-4299-9cba-c5e03fb10b43-1723154199040/node_modules/cash-machine"
+    cash-machine "file:../../Users/aluno/AppData/Local/Yarn/Cache/v6/npm-cash-machine-0.0.0-74fc15d0-014e-473f-abde-5b7f41fdcdc4-1723162021353/node_modules/cash-machine"
     date-fns "^3.6.0"
     localforage "^1.10.0"
     match-sorter "^6.3.1"

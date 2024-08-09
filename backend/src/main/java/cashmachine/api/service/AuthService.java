@@ -34,7 +34,7 @@ public class AuthService {
     private AccountRepository accountRepository;
 
     @Transactional
-    public void register(RegisterRequest registerRequest) {
+    public AuthResponse register(RegisterRequest registerRequest) {
         User user = new User();
         user.setName(registerRequest.getName());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
@@ -56,6 +56,8 @@ public class AuthService {
 
         userRepository.save(user);
         accountRepository.save(account);
+
+        return new AuthResponse(user, "Conta criada com sucesso!");
     }
 
     @Transactional

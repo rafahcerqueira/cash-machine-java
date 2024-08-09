@@ -84,20 +84,18 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         type,
         level,
       });
-  
-      if (response.status === 201) {
-        const user = response.data;
-        if (user) {
-          await loginIn({
-            accountNumber: user.account.accountNumber,
-            name: user.name,
-            password,
-          });
-  
-          setErrorMessage(null);
-        }
+
+      if (response.data.user) {
+        const userData = response.data.user;
+        setUser(userData);
+        setIsAuthenticated(true);
+        setErrorMessage(null);
+
+        delete userData.password;
+        cookies.set("user", userData, { path: "/" });
       } else {
         setErrorMessage(response.data.message || "Registration failed");
+        setIsAuthenticated(false);
       }
     } catch (error) {
       console.error("Registration error:", error);

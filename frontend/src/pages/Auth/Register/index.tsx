@@ -59,6 +59,7 @@ export default function Register() {
       if (errorMessage) {
         reset();
       } else {
+        navigate("/");
         notification({
           severity: "success",
           msg: "Cadastro realizado com sucesso!",

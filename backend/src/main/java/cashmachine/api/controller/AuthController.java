@@ -24,11 +24,12 @@ import java.util.stream.Collectors;
 public class AuthController {
 
     private AuthService authService;
+    
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest registerRequest){
-        authService.register(registerRequest);
-        return new ResponseEntity<>("Registration succesfull", HttpStatus.CREATED);
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid RegisterRequest registerRequest){
+        AuthResponse authResponse = authService.register(registerRequest);
+        return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
