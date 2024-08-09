@@ -264,7 +264,6 @@ export default function OperationsModal({
               <InputDefault
                 label="Valor"
                 placeholder="Digite o valor"
-                messageError={errors.amount?.message}
                 register={register}
                 registerName="amount"
                 type="number"
